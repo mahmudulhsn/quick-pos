@@ -49,6 +49,7 @@
               dark:focus:border-blue-500
             "
             placeholder="Search for items"
+            v-model="search"
           />
         </div>
         <div class="w-1/2">
@@ -82,245 +83,14 @@
           <tr>
             <th scope="col" class="p-4">#SL</th>
             <th scope="col" class="px-6 py-3">Product name</th>
-            <th scope="col" class="px-6 py-3">Color</th>
-            <th scope="col" class="px-6 py-3">Category</th>
+            <!-- <th scope="col" class="px-6 py-3">Category</th> -->
             <th scope="col" class="px-6 py-3">Price</th>
+            <th scope="col" class="px-6 py-3">Quantity</th>
             <th scope="col" class="px-6 py-3 text-right">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr
-            class="
-              bg-white
-              border-b
-              dark:bg-gray-800 dark:border-gray-700
-              hover:bg-gray-50
-              dark:hover:bg-gray-600
-            "
-          >
-            <td class="w-4 p-4">1</td>
-            <th
-              scope="row"
-              class="
-                px-6
-                py-4
-                font-medium
-                text-gray-900
-                dark:text-white
-                whitespace-nowrap
-              "
-            >
-              Apple MacBook Pro 17"
-            </th>
-            <td class="px-6 py-4">Sliver</td>
-            <td class="px-6 py-4">Laptop</td>
-            <td class="px-6 py-4">$2999</td>
-            <td class="px-6 py-4 text-right">
-              <a
-                href="#"
-                class="
-                  font-medium
-                  text-blue-600
-                  dark:text-blue-500
-                  hover:underline
-                "
-                >Edit</a
-              >
-            </td>
-          </tr>
-          <tr
-            class="
-              bg-white
-              border-b
-              dark:bg-gray-800 dark:border-gray-700
-              hover:bg-gray-50
-              dark:hover:bg-gray-600
-            "
-          >
-            <td class="w-4 p-4">2</td>
-            <th
-              scope="row"
-              class="
-                px-6
-                py-4
-                font-medium
-                text-gray-900
-                dark:text-white
-                whitespace-nowrap
-              "
-            >
-              Microsoft Surface Pro
-            </th>
-            <td class="px-6 py-4">White</td>
-            <td class="px-6 py-4">Laptop PC</td>
-            <td class="px-6 py-4">$1999</td>
-            <td class="px-6 py-4 text-right">
-              <a
-                href="#"
-                class="
-                  font-medium
-                  text-blue-600
-                  dark:text-blue-500
-                  hover:underline
-                "
-                >Edit</a
-              >
-            </td>
-          </tr>
-          <tr
-            class="
-              bg-white
-              dark:bg-gray-800
-              hover:bg-gray-50
-              dark:hover:bg-gray-600
-            "
-          >
-            <td class="w-4 p-4">3</td>
-            <th
-              scope="row"
-              class="
-                px-6
-                py-4
-                font-medium
-                text-gray-900
-                dark:text-white
-                whitespace-nowrap
-              "
-            >
-              Magic Mouse 2
-            </th>
-            <td class="px-6 py-4">Black</td>
-            <td class="px-6 py-4">Accessories</td>
-            <td class="px-6 py-4">$99</td>
-            <td class="px-6 py-4 text-right">
-              <a
-                href="#"
-                class="
-                  font-medium
-                  text-blue-600
-                  dark:text-blue-500
-                  hover:underline
-                "
-                >Edit</a
-              >
-            </td>
-          </tr>
-          <tr
-            class="
-              bg-white
-              border-b
-              dark:bg-gray-800 dark:border-gray-700
-              hover:bg-gray-50
-              dark:hover:bg-gray-600
-            "
-          >
-            <td class="w-4 p-4">2</td>
-            <th
-              scope="row"
-              class="
-                px-6
-                py-4
-                font-medium
-                text-gray-900
-                dark:text-white
-                whitespace-nowrap
-              "
-            >
-              Microsoft Surface Pro
-            </th>
-            <td class="px-6 py-4">White</td>
-            <td class="px-6 py-4">Laptop PC</td>
-            <td class="px-6 py-4">$1999</td>
-            <td class="px-6 py-4 text-right">
-              <a
-                href="#"
-                class="
-                  font-medium
-                  text-blue-600
-                  dark:text-blue-500
-                  hover:underline
-                "
-                >Edit</a
-              >
-            </td>
-          </tr>
-          <tr
-            class="
-              bg-white
-              dark:bg-gray-800
-              hover:bg-gray-50
-              dark:hover:bg-gray-600
-            "
-          >
-            <td class="w-4 p-4">3</td>
-            <th
-              scope="row"
-              class="
-                px-6
-                py-4
-                font-medium
-                text-gray-900
-                dark:text-white
-                whitespace-nowrap
-              "
-            >
-              Magic Mouse 2
-            </th>
-            <td class="px-6 py-4">Black</td>
-            <td class="px-6 py-4">Accessories</td>
-            <td class="px-6 py-4">$99</td>
-            <td class="px-6 py-4 text-right">
-              <a
-                href="#"
-                class="
-                  font-medium
-                  text-blue-600
-                  dark:text-blue-500
-                  hover:underline
-                "
-                >Edit</a
-              >
-            </td>
-          </tr>
-          <tr
-            class="
-              bg-white
-              border-b
-              dark:bg-gray-800 dark:border-gray-700
-              hover:bg-gray-50
-              dark:hover:bg-gray-600
-            "
-          >
-            <td class="w-4 p-4">2</td>
-            <th
-              scope="row"
-              class="
-                px-6
-                py-4
-                font-medium
-                text-gray-900
-                dark:text-white
-                whitespace-nowrap
-              "
-            >
-              Microsoft Surface Pro
-            </th>
-            <td class="px-6 py-4">White</td>
-            <td class="px-6 py-4">Laptop PC</td>
-            <td class="px-6 py-4">$1999</td>
-            <td class="px-6 py-4 text-right">
-              <a
-                href="#"
-                class="
-                  font-medium
-                  text-blue-600
-                  dark:text-blue-500
-                  hover:underline
-                "
-                >Edit</a
-              >
-            </td>
-          </tr>
+        <tbody v-for="(product, index) in filteredProducts" :key="index">
+          <SingleProduct :product="product" />
         </tbody>
       </table>
     </div>
@@ -333,13 +103,48 @@
 
 <script>
 import CreateProduct from "../components/products/CreateProduct.vue";
+import SingleProduct from "../components/products/SingleProduct.vue";
 export default {
   components: {
     CreateProduct,
+    SingleProduct,
   },
   data() {
     return {
       isModalOpen: false,
+      search: "",
+      products: [
+        {
+          id: 1,
+          name: "Boots Super Plus",
+          price: 680.0,
+          quantity: 60,
+        },
+        {
+          id: 2,
+          name: "Boots Super Plus Extra",
+          price: 680.0,
+          quantity: 60,
+        },
+        {
+          id: 3,
+          name: "ASDA Super Plus",
+          price: 680.0,
+          quantity: 60,
+        },
+        {
+          id: 4,
+          name: "ASDA Super Plus Extra",
+          price: 680.0,
+          quantity: 60,
+        },
+        {
+          id: 5,
+          name: "Boots Regular",
+          price: 680.0,
+          quantity: 60,
+        },
+      ],
     };
   },
   methods: {
@@ -348,6 +153,14 @@ export default {
     },
     closeModal() {
       this.isModalOpen = false;
+    },
+  },
+  computed: {
+    filteredProducts() {
+      return this.products.filter((product) => {
+        console.log("sd");
+        return product.name.toLowerCase().includes(this.search);
+      });
     },
   },
 };
