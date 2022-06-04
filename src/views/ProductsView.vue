@@ -159,7 +159,7 @@ export default {
     filteredProducts() {
       return this.products.filter((product) => {
         console.log("sd");
-        return product.name.toLowerCase().includes(this.search);
+        return product.name.toLowerCase().includes(this.search.toLowerCase());
       });
     },
   },
