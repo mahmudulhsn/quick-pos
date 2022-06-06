@@ -8,7 +8,7 @@
       dark:hover:bg-gray-600
     "
   >
-    <td class="w-4 p-4">{{ product.id }}</td>
+    <!-- <td class="w-4 p-4">{{ product.id }}</td> -->
     <th
       scope="row"
       class="
@@ -24,12 +24,13 @@
     </th>
     <td class="px-6 py-4">{{ product.price }}</td>
     <td class="px-6 py-4">{{ product.quantity }}</td>
-    <td class="px-6 py-4 text-right">
-      <a
-        href="#"
-        class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-        >Edit</a
-      >
+    <td class="px-6 py-4 float-right space-x-3 items-center content-end">
+      <a href="#" class="font-medium text-white py-2 px-3 bg-sky-500 rounded">
+        <i class="fas fa-edit"></i>
+      </a>
+      <a href="#" class="font-medium text-white py-2 px-3 bg-red-500 rounded">
+        <i class="fas fa-trash"></i>
+      </a>
     </td>
   </tr>
 </template>

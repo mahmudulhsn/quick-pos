@@ -25,7 +25,7 @@
         <LeftSideBar />
 
         <div class="col-span-4">
-          <div class="p-2 mt-16">
+          <div class="p-2 mt-16 mb-20">
             <RouterView />
           </div>
         </div>

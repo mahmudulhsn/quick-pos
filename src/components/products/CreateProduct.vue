@@ -33,7 +33,7 @@
         </span>
       </div>
       <div class="w-full px-5">
-        <form action="" method="post">
+        <form method="post" @submit.prevent="addProduct">
           <!-- input start -->
           <div class="from-group w-full">
             <label for="name" class="w-full align-start">
@@ -56,6 +56,7 @@
               "
               type="text"
               placeholder="Product Name"
+              v-model="product.name"
             />
           </div>
           <!-- input end -->
@@ -82,6 +83,7 @@
               "
               type="text"
               placeholder="Product Price"
+              v-model="product.price"
             />
           </div>
           <!-- input end -->
@@ -108,6 +110,7 @@
               "
               type="text"
               placeholder="Product Quantity"
+              v-model="product.quantity"
             />
           </div>
           <!-- input end -->
@@ -141,6 +144,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   props: {
     isOpenModal: {
@@ -148,11 +152,25 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      product: {},
+    };
   },
   methods: {
     closeModal() {
       this.$emit("modalClose");
+    },
+    addProduct() {
+      axios
+        .post("http://quick-pos-api.test/api/products", this.product)
+        .then((response) => {
+          this.$emit("newProductCreated", response.data);
+          this.product = {};
+          this.closeModal();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };

@@ -81,7 +81,7 @@
           "
         >
           <tr>
-            <th scope="col" class="p-4">#SL</th>
+            <!-- <th scope="col" class="p-4">#SL</th> -->
             <th scope="col" class="px-6 py-3">Product name</th>
             <!-- <th scope="col" class="px-6 py-3">Category</th> -->
             <th scope="col" class="px-6 py-3">Price</th>
@@ -96,12 +96,17 @@
     </div>
 
     <!-- modal -->
-    <CreateProduct :isOpenModal="isModalOpen" @modalClose="closeModal" />
+    <CreateProduct
+      :isOpenModal="isModalOpen"
+      @modalClose="closeModal"
+      @newProductCreated="createdNewProduct"
+    />
     <!-- end model -->
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import CreateProduct from "../components/products/CreateProduct.vue";
 import SingleProduct from "../components/products/SingleProduct.vue";
 export default {
@@ -113,39 +118,18 @@ export default {
     return {
       isModalOpen: false,
       search: "",
-      products: [
-        {
-          id: 1,
-          name: "Boots Super Plus",
-          price: 680.0,
-          quantity: 60,
-        },
-        {
-          id: 2,
-          name: "Boots Super Plus Extra",
-          price: 680.0,
-          quantity: 60,
-        },
-        {
-          id: 3,
-          name: "ASDA Super Plus",
-          price: 680.0,
-          quantity: 60,
-        },
-        {
-          id: 4,
-          name: "ASDA Super Plus Extra",
-          price: 680.0,
-          quantity: 60,
-        },
-        {
-          id: 5,
-          name: "Boots Regular",
-          price: 680.0,
-          quantity: 60,
-        },
-      ],
+      products: [],
     };
+  },
+  mounted() {
+    this.getAllProducts();
+  },
+  computed: {
+    filteredProducts() {
+      return this.products.filter((product) => {
+        return product.name.toLowerCase().includes(this.search.toLowerCase());
+      });
+    },
   },
   methods: {
     openModal() {
@@ -154,13 +138,19 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
-  },
-  computed: {
-    filteredProducts() {
-      return this.products.filter((product) => {
-        console.log("sd");
-        return product.name.toLowerCase().includes(this.search.toLowerCase());
-      });
+    getAllProducts() {
+      axios
+        .get("http://quick-pos-api.test/api/products")
+        .then((response) => {
+          this.products = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    createdNewProduct(product) {
+      // this.products.push(product);
+      this.products.unshift(product);
     },
   },
 };
