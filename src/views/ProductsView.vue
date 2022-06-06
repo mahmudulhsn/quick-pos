@@ -90,7 +90,7 @@
           </tr>
         </thead>
         <tbody v-for="(product, index) in filteredProducts" :key="index">
-          <SingleProduct :product="product" />
+          <SingleProduct :product="product" @productDeleted="deleteProduct" />
         </tbody>
       </table>
     </div>
@@ -151,6 +151,13 @@ export default {
     createdNewProduct(product) {
       // this.products.push(product);
       this.products.unshift(product);
+    },
+    deleteProduct(productID) {
+      console.log(productID);
+      this.products.splice(
+        this.products.find((item) => item.id === productID),
+        1
+      );
     },
   },
 };

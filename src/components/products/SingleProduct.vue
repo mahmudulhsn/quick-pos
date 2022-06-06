@@ -25,10 +25,14 @@
     <td class="px-6 py-4">{{ product.price }}</td>
     <td class="px-6 py-4">{{ product.quantity }}</td>
     <td class="px-6 py-4 float-right space-x-3 items-center content-end">
-      <a href="#" class="font-medium text-white py-2 px-3 bg-sky-500 rounded">
+      <button class="font-medium text-white py-2 px-3 bg-sky-500 rounded">
         <i class="fas fa-edit"></i>
-      </a>
-      <a href="#" class="font-medium text-white py-2 px-3 bg-red-500 rounded">
+      </button>
+      <a
+        href="#"
+        class="font-medium text-white py-2 px-3 bg-red-500 rounded"
+        @click.prevent="deleteProduct(product.id)"
+      >
         <i class="fas fa-trash"></i>
       </a>
     </td>
@@ -36,10 +40,24 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   props: {
     product: {
       type: Object,
+    },
+  },
+  methods: {
+    deleteProduct(productID) {
+      axios
+        .delete(`http://quick-pos-api.test/api/products/${productID}`)
+        .then((response) => {
+          console.log(response);
+          this.$emit("productDeleted", productID);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };
