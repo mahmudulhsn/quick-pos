@@ -27,7 +27,7 @@
     <td class="px-6 py-4 float-right space-x-3 items-center content-end">
       <button
         class="font-medium text-white py-2 px-3 bg-sky-500 rounded"
-        @click.prevent="edit"
+        @click.prevent="editProduct(product)"
       >
         <i class="fas fa-edit"></i>
       </button>
@@ -50,10 +50,8 @@ export default {
     },
   },
   methods: {
-    edit() {
-      thi.$wal.fire({
-        template: "#my-template",
-      });
+    editProduct(productDetails) {
+      this.eventBus.emit("openEditModal", { productDetails });
     },
     deleteProduct(productID) {
       axios

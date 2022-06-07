@@ -102,6 +102,13 @@
       @newProductCreated="createdNewProduct"
     />
     <!-- end model -->
+
+    <!-- edit modal -->
+    <EditProduct
+      :openEditModal="openEditModal"
+      @productUpdated="productUpdated"
+    />
+    <!-- end edit model -->
   </div>
 </template>
 
@@ -109,16 +116,20 @@
 import axios from "axios";
 import CreateProduct from "../components/products/CreateProduct.vue";
 import SingleProduct from "../components/products/SingleProduct.vue";
+import EditProduct from "../components/products/EditProduct.vue";
 export default {
   components: {
     CreateProduct,
     SingleProduct,
+    EditProduct,
   },
   data() {
     return {
       isModalOpen: false,
+      openEditModal: false,
       search: "",
       products: [],
+      product: {},
     };
   },
   mounted() {
@@ -130,6 +141,15 @@ export default {
         return product.name.toLowerCase().includes(this.search.toLowerCase());
       });
     },
+  },
+  created() {
+    this.eventBus.on("openEditModal", (product) => {
+      this.product = product.product;
+      this.openEditModal = true;
+    });
+    this.eventBus.on("closeEditModal", () => {
+      this.openEditModal = false;
+    });
   },
   methods: {
     openModal() {
@@ -151,6 +171,12 @@ export default {
     createdNewProduct(product) {
       // this.products.push(product);
       this.products.unshift(product);
+    },
+    productUpdated(updatedProduct) {
+      const item = updatedProduct;
+      this.products = this.products.map((x) => (x.id === item.id ? item : x));
+      // this.products.push(product);
+      // this.products.unshift(product);
     },
     deleteProduct(productID) {
       console.log(productID);
