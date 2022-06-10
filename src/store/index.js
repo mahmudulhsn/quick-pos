@@ -31,7 +31,7 @@ const store = createStore({
           .then((response) => {
             localStorage.setItem("accessToken", response.data.data.token);
             context.commit("setToken", response.data.data.token);
-            resolve(response);
+            resolve(response.data);
           })
           .catch((error) => {
             reject(error);
@@ -47,7 +47,7 @@ const store = createStore({
           .then((response) => {
             localStorage.removeItem("accessToken");
             context.commit("removeToken");
-            resolve(response);
+            resolve(response.data);
           })
           .catch((error) => {
             reject(error);

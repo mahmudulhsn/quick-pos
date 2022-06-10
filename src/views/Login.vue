@@ -273,7 +273,24 @@ export default {
   },
   methods: {
     login() {
-      this.$store.dispatch("login", this.credential).then(() => {
+      this.$store.dispatch("login", this.credential).then((res) => {
+        const Toast = this.$swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", this.$swal.stopTimer);
+            toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: res.message,
+        });
+
         this.$router.push({
           name: "Dashboard",
         });
