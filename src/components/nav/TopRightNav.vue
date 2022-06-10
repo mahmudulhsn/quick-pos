@@ -32,7 +32,7 @@
           </li>
         </RouterLink>
 
-        <RouterLink to="/about">
+        <RouterLink to="/logout">
           <li
             class="
               py-5

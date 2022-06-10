@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import DashboardLayout from "../layouts/DashboardLayout.vue";
 import AuthLayout from "../layouts/AuthLayout.vue";
+import store from "../store";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,24 +9,34 @@ const router = createRouter({
     {
       path: "/",
       redirect: "dashboard",
-      // name: "home",
+      meta: {
+        requiresAuth: true,
+      },
       component: DashboardLayout,
       children: [
         {
           path: "/dashboard",
-          name: "dashboard",
+          name: "Dashboard",
           component: () => import("../views/Dashboard.vue"),
-          // meta: { middleware: auth },
+          meta: {
+            requiresAuth: true,
+          },
         },
         {
           path: "/about",
-          name: "about",
+          name: "About",
           component: () => import("../views/AboutView.vue"),
+          meta: {
+            requiresAuth: true,
+          },
         },
         {
           path: "/products",
-          name: "products",
+          name: "Products",
           component: () => import("../views/ProductsView.vue"),
+          meta: {
+            requiresAuth: true,
+          },
         },
       ],
     },
@@ -36,33 +47,60 @@ const router = createRouter({
       children: [
         {
           path: "/login",
-          name: "login",
-          component: () =>
-            import(/* webpackChunkName: "demo" */ "../views/Login.vue"),
-          // meta: { middleware: guest },
+          name: "Login",
+          component: () => import("../views/Login.vue"),
+          meta: {
+            guest: true,
+          },
+        },
+        {
+          path: "/logout",
+          name: "Logout",
+          component: () => import("../components/Auth/Logout.vue"),
+          meta: {
+            requiresAuth: true,
+          },
         },
         {
           path: "/register",
-          name: "register",
-          component: () =>
-            import(/* webpackChunkName: "demo" */ "../views/Register.vue"),
-          // meta: { middleware: guest },
+          name: "Register",
+          component: () => import("../views/Register.vue"),
+          meta: {
+            guest: true,
+          },
         },
         // {
         //   path: "/password/reset",
         //   name: "PasswordReset",
         //   component: PasswordReset,
-        //   meta: { middleware: guest },
+        //   meta: {
+        //     requiresAuth: true,
+        //   },
         // },
         // {
         //   path: "/password/email",
         //   name: "PasswordEmail",
         //   component: PasswordEmail,
-        //   meta: { middleware: guest },
+        //   meta: {
+        //     requiresAuth: true,
+        //   },
         // },
       ],
     },
   ],
+});
+
+router.beforeEach((to, from) => {
+  if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
+    return {
+      name: "Login",
+    };
+  }
+  if (to.meta.guest && store.getters.isLoggedIn) {
+    return {
+      name: "Dashboard",
+    };
+  }
 });
 
 export default router;

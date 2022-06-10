@@ -160,7 +160,7 @@ export default {
     },
     getAllProducts() {
       axios
-        .get("http://quick-pos-api.test/api/products")
+        .get("http://quick-pos-api.test/api/v1/products")
         .then((response) => {
           this.products = response.data;
         })
