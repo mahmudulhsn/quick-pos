@@ -2,7 +2,7 @@
   <div class="w-3/4 right-top">
     <nav class="inline-block align-middle float-right">
       <ul class="flex">
-        <RouterLink to="/home">
+        <RouterLink to="/dashboard">
           <li
             class="
               py-5

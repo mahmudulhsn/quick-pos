@@ -12,7 +12,8 @@
     "mitt": "^3.0.0",
     "vue": "^3.2.36",
     "vue-router": "^4.0.15",
-    "vue-sweetalert2": "^5.0.5"
+    "vue-sweetalert2": "^5.0.5",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.0",
