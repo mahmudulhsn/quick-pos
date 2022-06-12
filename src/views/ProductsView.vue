@@ -160,7 +160,11 @@ export default {
     },
     getAllProducts() {
       axios
-        .get("http://quick-pos-api.test/api/v1/products")
+        .get("http://quick-pos-api.test/api/v1/products", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+          },
+        })
         .then((response) => {
           this.products = response.data;
         })

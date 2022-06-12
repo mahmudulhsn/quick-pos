@@ -6,6 +6,7 @@ axios.defaults.baseURL = "http://quick-pos-api.test/api/v1";
 const store = createStore({
   state: {
     token: localStorage.getItem("accessToken") || null,
+    loggedInUser: {},
   },
   getters: {
     isLoggedIn(state) {
@@ -18,6 +19,9 @@ const store = createStore({
     },
     removeToken(state) {
       state.token = null;
+    },
+    getLoggedInUser(state, user) {
+      state.user = user;
     },
   },
   actions: {
@@ -47,6 +51,21 @@ const store = createStore({
           .then((response) => {
             localStorage.removeItem("accessToken");
             context.commit("removeToken");
+            resolve(response.data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    getLoginUser(context) {
+      axios.defaults.headers.common["Authorization"] =
+        "Bearer " + context.state.token;
+      return new Promise((resolve, reject) => {
+        axios
+          .get("/user/info")
+          .then((response) => {
+            context.commit("getLoggedInUser", response.data);
             resolve(response.data);
           })
           .catch((error) => {

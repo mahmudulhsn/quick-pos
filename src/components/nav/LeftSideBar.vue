@@ -13,7 +13,7 @@
             </RouterLink>
           </div>
           <div class="w-3/4 inline-block py-2">
-            <RouterLink to="/"> M H Hasib </RouterLink>
+            <RouterLink to="/"> {{ user.name }} </RouterLink>
           </div>
         </div>
       </div>
@@ -42,7 +42,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    user: {
+      type: Object,
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

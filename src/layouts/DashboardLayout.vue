@@ -22,7 +22,7 @@
 
     <main class="w-full">
       <div class="grid grid-cols-5">
-        <LeftSideBar />
+        <LeftSideBar :user="user" />
 
         <div class="col-span-4">
           <div class="p-2 mt-16 mb-20">
@@ -66,6 +66,21 @@ import LeftSideBar from "../components/nav/LeftSideBar.vue";
 import UserInfo from "../components/users/UserInfo.vue";
 export default {
   components: { TopRightNav, TopLeftNav, LeftSideBar, UserInfo },
+  data() {
+    return {
+      user: {},
+    };
+  },
+  created() {
+    this.$store
+      .dispatch("getLoginUser")
+      .then((res) => {
+        this.user = res.data.user;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
 };
 </script>
 
