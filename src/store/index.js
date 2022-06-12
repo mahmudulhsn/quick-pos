@@ -55,15 +55,11 @@ const store = createStore({
 
     // logout
     logout(context) {
-      // axios.defaults.headers.common["Authorization"] =
-      //   "Bearer " + context.state.token;
+      axios.defaults.headers.common["Authorization"] =
+        "Bearer " + context.state.token;
       return new Promise((resolve, reject) => {
         axios
-          .post("/logout", {
-            headers: {
-              Authorization: "Bearer " + context.state.token,
-            },
-          })
+          .post("/logout")
           .then((response) => {
             localStorage.removeItem("accessToken");
             context.commit("removeToken");
