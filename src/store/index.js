@@ -7,6 +7,7 @@ const store = createStore({
   state: {
     token: localStorage.getItem("accessToken") || null,
     loggedInUser: {},
+    products: [],
   },
   getters: {
     isLoggedIn(state) {
@@ -14,17 +15,26 @@ const store = createStore({
     },
   },
   mutations: {
+    // set token
     setToken(state, token) {
       state.token = token;
     },
+    // remove token
     removeToken(state) {
       state.token = null;
     },
+    // get loggedIn user info
     getLoggedInUser(state, user) {
       state.user = user;
     },
+
+    // get all products
+    getProducts(state, products) {
+      state.products = products;
+    },
   },
   actions: {
+    // logged in
     login(context, credential) {
       return new Promise((resolve, reject) => {
         axios
@@ -42,12 +52,18 @@ const store = createStore({
           });
       });
     },
+
+    // logout
     logout(context) {
-      axios.defaults.headers.common["Authorization"] =
-        "Bearer " + context.state.token;
+      // axios.defaults.headers.common["Authorization"] =
+      //   "Bearer " + context.state.token;
       return new Promise((resolve, reject) => {
         axios
-          .post("/logout")
+          .post("/logout", {
+            headers: {
+              Authorization: "Bearer " + context.state.token,
+            },
+          })
           .then((response) => {
             localStorage.removeItem("accessToken");
             context.commit("removeToken");
@@ -58,15 +74,54 @@ const store = createStore({
           });
       });
     },
+
+    // get logged in user info
     getLoginUser(context) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get("/user/info", {
+            headers: {
+              Authorization: "Bearer " + context.state.token,
+            },
+          })
+          .then((response) => {
+            context.commit("getLoggedInUser", response.data);
+            resolve(response.data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+
+    // get all products
+    getProducts(context) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get("/products", {
+            headers: {
+              Authorization: "Bearer " + context.state.token,
+            },
+          })
+          .then((response) => {
+            context.commit("getProducts", response.data);
+            resolve(response.data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+
+    // create new product
+    createProduct(context, credential) {
       axios.defaults.headers.common["Authorization"] =
         "Bearer " + context.state.token;
       return new Promise((resolve, reject) => {
         axios
-          .get("/user/info")
+          .post("/products", credential)
           .then((response) => {
-            context.commit("getLoggedInUser", response.data);
-            resolve(response.data);
+            resolve(response.data.data);
           })
           .catch((error) => {
             reject(error);

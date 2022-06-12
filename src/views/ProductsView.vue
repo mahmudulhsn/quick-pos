@@ -113,7 +113,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import CreateProduct from "../components/products/CreateProduct.vue";
 import SingleProduct from "../components/products/SingleProduct.vue";
 import EditProduct from "../components/products/EditProduct.vue";
@@ -159,12 +158,8 @@ export default {
       this.isModalOpen = false;
     },
     getAllProducts() {
-      axios
-        .get("http://quick-pos-api.test/api/v1/products", {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("accessToken"),
-          },
-        })
+      this.$store
+        .dispatch("getProducts")
         .then((response) => {
           this.products = response.data;
         })

@@ -161,11 +161,14 @@ export default {
       this.$emit("modalClose");
     },
     addProduct() {
-      axios
-        .post("http://quick-pos-api.test/api/products", this.product)
+      this.$store
+        .dispatch("createProduct", this.product)
         .then((response) => {
-          this.$emit("newProductCreated", response.data);
+          console.log(response);
+
+          this.$emit("newProductCreated", response);
           this.product = {};
+          this.closeModal();
 
           const Toast = this.$swal.mixin({
             toast: true,
@@ -183,11 +186,9 @@ export default {
             icon: "success",
             title: "Product Added Successfully",
           });
-
-          this.closeModal();
         })
         .catch((error) => {
-          console.log(error);
+          consol.log(error);
         });
     },
   },
