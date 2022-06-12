@@ -34,6 +34,14 @@
                 <span>Products</span>
               </li>
             </RouterLink>
+            <RouterLink to="/pos">
+              <li class="py-2 hover:bg-gray-500 rounded">
+                <span class="px-2"
+                  ><i class="fa-brands fa-product-hunt"></i
+                ></span>
+                <span>POS</span>
+              </li>
+            </RouterLink>
           </ul>
         </nav>
       </div>

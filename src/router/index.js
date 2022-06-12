@@ -38,6 +38,14 @@ const router = createRouter({
             requiresAuth: true,
           },
         },
+        {
+          path: "/pos",
+          name: "POS",
+          component: () => import("../views/POSView.vue"),
+          meta: {
+            requiresAuth: true,
+          },
+        },
       ],
     },
     {
