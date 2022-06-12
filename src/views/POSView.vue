@@ -3,7 +3,7 @@
     <div class="flex w-full space-x-2">
       <div class="w-2/6 bg-gray-200 shadow-xl rounded">
         <div class="mx-2">
-          <div class="cart-title py-4 border-b-2 border-gray-500">
+          <div class="cart-title py-3 border-b-2 border-gray-500">
             <h1 class="text-center font-bold text-2xl">Cart Items (5)</h1>
           </div>
           <div class="cart-details my-2">
@@ -117,7 +117,108 @@
           </div>
         </div>
       </div>
-      <div class="w-4/6 bg-gray-300 shadow-xl rounded"></div>
+
+      <div class="w-4/6 bg-gray-200 shadow-xl rounded">
+        <div class="mx-2">
+          <div class="product-title py-3 border-b-2 border-gray-500">
+            <h1 class="text-center font-bold text-2xl">Products</h1>
+          </div>
+          <div
+            class="
+              product-details
+              my-2
+              grid grid-cols-3
+              gap-3
+              text-center text-white
+            "
+          >
+            <!-- single product -->
+            <div class="bg-sky-900 rounded py-3 shadow-lg shadow-sky-500/50">
+              <div class="product-details pb-5">
+                <h1 class="title text-md font-bold">Boots Tampon Super Plus</h1>
+                <h1>Price:<span class="font-bold"> 600</span></h1>
+                <h1>Stock:<span class="font-bold"> 50</span></h1>
+              </div>
+              <button
+                class="py-2 px-3 bg-blue-500 rounded font-bold text-white"
+              >
+                Add to Cart
+              </button>
+            </div>
+            <!-- single product -->
+            <!-- single product -->
+            <div class="bg-sky-900 rounded py-3 shadow-lg shadow-sky-500/50">
+              <div class="product-details pb-5">
+                <h1 class="title text-md font-bold">Boots Tampon Super Plus</h1>
+                <h1>Price:<span class="font-bold"> 600</span></h1>
+                <h1>Stock:<span class="font-bold"> 50</span></h1>
+              </div>
+              <button
+                class="py-2 px-3 bg-blue-500 rounded font-bold text-white"
+              >
+                Add to Cart
+              </button>
+            </div>
+            <!-- single product -->
+            <!-- single product -->
+            <div class="bg-sky-900 rounded py-3 shadow-lg shadow-sky-500/50">
+              <div class="product-details pb-5">
+                <h1 class="title text-md font-bold">Boots Tampon Super Plus</h1>
+                <h1>Price:<span class="font-bold"> 600</span></h1>
+                <h1>Stock:<span class="font-bold"> 50</span></h1>
+              </div>
+              <button
+                class="py-2 px-3 bg-blue-500 rounded font-bold text-white"
+              >
+                Add to Cart
+              </button>
+            </div>
+            <!-- single product -->
+            <!-- single product -->
+            <div class="bg-sky-900 rounded py-3 shadow-lg shadow-sky-500/50">
+              <div class="product-details pb-5">
+                <h1 class="title text-md font-bold">Boots Tampon Super Plus</h1>
+                <h1>Price:<span class="font-bold"> 600</span></h1>
+                <h1>Stock:<span class="font-bold"> 50</span></h1>
+              </div>
+              <button
+                class="py-2 px-3 bg-blue-500 rounded font-bold text-white"
+              >
+                Add to Cart
+              </button>
+            </div>
+            <!-- single product -->
+            <!-- single product -->
+            <div class="bg-sky-900 rounded py-3 shadow-lg shadow-sky-500/50">
+              <div class="product-details pb-5">
+                <h1 class="title text-md font-bold">Boots Tampon Super Plus</h1>
+                <h1>Price:<span class="font-bold"> 600</span></h1>
+                <h1>Stock:<span class="font-bold"> 50</span></h1>
+              </div>
+              <button
+                class="py-2 px-3 bg-blue-500 rounded font-bold text-white"
+              >
+                Add to Cart
+              </button>
+            </div>
+            <!-- single product -->
+            <!-- single product -->
+            <div class="bg-sky-900 rounded py-3 shadow-lg shadow-sky-500/50">
+              <div class="product-details pb-5">
+                <h1 class="title text-md font-bold">Boots Tampon Super Plus</h1>
+                <h1>Price:<span class="font-bold"> 600</span></h1>
+                <h1>Stock:<span class="font-bold"> 50</span></h1>
+              </div>
+              <button
+                class="py-2 px-3 bg-blue-500 rounded font-bold text-white"
+              >
+                Add to Cart
+              </button>
+            </div>
+            <!-- single product -->
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
