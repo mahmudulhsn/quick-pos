@@ -33,7 +33,7 @@
         </span>
       </div>
       <div class="w-full px-5">
-        <form @submit.prevent="updateProduct">
+        <form @submit.prevent="updateProduct()">
           <!-- input start -->
           <div class="from-group w-full">
             <label for="name" class="w-full align-start">
@@ -161,7 +161,7 @@ export default {
   //   },
   created() {
     this.eventBus.on("openEditModal", (productDetails) => {
-      this.product = productDetails.productDetails;
+      this.product = productDetails;
     });
   },
   methods: {
@@ -169,14 +169,16 @@ export default {
       this.eventBus.emit("closeEditModal");
     },
     updateProduct() {
-      axios
-        .put(
-          `http://quick-pos-api.test/api/products/${this.product.id}`,
-          this.product
-        )
+      const updateProductDetails = {
+        productID: this.product.id,
+        updateInfo: this.product,
+      };
+      this.$store
+        .dispatch("updateProduct", updateProductDetails)
         .then((response) => {
-          this.$emit("productUpdated", response.data);
-          this.product = {};
+          console.log(response.data);
+          this.$emit("productUpdated", response.data.data);
+          // this.product = {};
 
           const Toast = this.$swal.mixin({
             toast: true,
@@ -192,7 +194,7 @@ export default {
 
           Toast.fire({
             icon: "success",
-            title: "Product Updated Successfully",
+            title: response.data.message,
           });
 
           this.closeModal();

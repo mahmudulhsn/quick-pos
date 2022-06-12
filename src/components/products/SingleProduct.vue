@@ -27,7 +27,7 @@
     <td class="px-6 py-4 float-right space-x-3 items-center content-end">
       <button
         class="font-medium text-white py-2 px-3 bg-sky-500 rounded"
-        @click.prevent="editProduct(product)"
+        @click.prevent="editProduct(product.id)"
       >
         <i class="fas fa-edit"></i>
       </button>
@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   props: {
     product: {
@@ -50,12 +49,22 @@ export default {
     },
   },
   methods: {
-    editProduct(productDetails) {
-      this.eventBus.emit("openEditModal", { productDetails });
+    // edit product
+    editProduct(productID) {
+      this.$store
+        .dispatch("getSingleProduct", productID)
+        .then((response) => {
+          this.eventBus.emit("openEditModal", response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
+
+    // delete product
     deleteProduct(productID) {
-      axios
-        .delete(`http://quick-pos-api.test/api/products/${productID}`)
+      this.$store
+        .dispatch("deleteProduct", productID)
         .then((response) => {
           const Toast = this.$swal.mixin({
             toast: true,
@@ -71,7 +80,7 @@ export default {
 
           Toast.fire({
             icon: "success",
-            title: "Product deleted Successfully",
+            title: response.message,
           });
           this.$emit("productDeleted", productID);
         })

@@ -128,6 +128,62 @@ const store = createStore({
           });
       });
     },
+
+    // get single product
+    getSingleProduct(context, productID) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/products/${productID}`, {
+            headers: {
+              Authorization: "Bearer " + context.state.token,
+            },
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+
+    // update product
+    updateProduct(context, updateProductDetails) {
+      axios.defaults.headers.common["Authorization"] =
+        "Bearer " + context.state.token;
+
+      return new Promise((resolve, reject) => {
+        axios
+          .put(
+            `/products/${updateProductDetails.productID}`,
+            updateProductDetails.updateInfo
+          )
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+
+    // delete product
+    deleteProduct(context, productID) {
+      return new Promise((resolve, reject) => {
+        axios
+          .delete(`/products/${productID}`, {
+            headers: {
+              Authorization: "Bearer " + context.state.token,
+            },
+          })
+          .then((response) => {
+            resolve(response.data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
   },
 });
 
