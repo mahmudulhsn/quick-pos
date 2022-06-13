@@ -3,8 +3,9 @@
     v-show="openEditModal"
     class="
       bg-black bg-opacity-50
-      absolute
+      fixed
       inset-0
+      overflow-hidden
       flex
       justify-center
       items-center
