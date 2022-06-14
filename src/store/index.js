@@ -110,12 +110,20 @@ const store = createStore({
     },
 
     // create new product
-    createProduct(context, credential) {
-      axios.defaults.headers.common["Authorization"] =
-        "Bearer " + context.state.token;
+    createProduct(context, formData) {
+      // axios.defaults.headers.common["Authorization"] =
+      //   "Bearer " + context.state.token;
+
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+          Authorization: "Bearer " + context.state.token,
+        },
+      };
+      console.log(formData);
       return new Promise((resolve, reject) => {
         axios
-          .post("/products", credential)
+          .post("/products", formData, config)
           .then((response) => {
             resolve(response.data.data);
           })

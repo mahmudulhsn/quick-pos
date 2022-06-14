@@ -23,6 +23,12 @@
       {{ product.name }}
     </th>
     <td class="px-6 py-4">{{ product.price }}</td>
+    <td class="px-6 py-4">
+      <span v-if="product.admin_url !== ''">
+        <img :src="product.admin_url" alt="" />
+      </span>
+      <span v-else> No Image Found</span>
+    </td>
     <td class="px-6 py-4">{{ product.quantity }}</td>
     <td class="px-6 py-4 float-right space-x-3 items-center content-end">
       <button

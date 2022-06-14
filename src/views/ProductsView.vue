@@ -83,6 +83,7 @@
           <tr>
             <!-- <th scope="col" class="p-4">#SL</th> -->
             <th scope="col" class="px-6 py-3">Product name</th>
+            <th scope="col" class="px-6 py-3">Image</th>
             <!-- <th scope="col" class="px-6 py-3">Category</th> -->
             <th scope="col" class="px-6 py-3">Price</th>
             <th scope="col" class="px-6 py-3">Quantity</th>
