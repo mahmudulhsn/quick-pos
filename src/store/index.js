@@ -120,7 +120,6 @@ const store = createStore({
           Authorization: "Bearer " + context.state.token,
         },
       };
-      console.log(formData);
       return new Promise((resolve, reject) => {
         axios
           .post("/products", formData, config)
@@ -153,14 +152,22 @@ const store = createStore({
 
     // update product
     updateProduct(context, updateProductDetails) {
-      axios.defaults.headers.common["Authorization"] =
-        "Bearer " + context.state.token;
+      // axios.defaults.headers.common["Authorization"] =
+      //   "Bearer " + context.state.token;
+      // axios.defaults.headers.common["content-type"] = "multipart/form-data";
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+          Authorization: "Bearer " + context.state.token,
+        },
+      };
 
       return new Promise((resolve, reject) => {
         axios
-          .put(
+          .post(
             `/products/${updateProductDetails.productID}`,
-            updateProductDetails.updateInfo
+            updateProductDetails.updateInfo,
+            config
           )
           .then((response) => {
             resolve(response);

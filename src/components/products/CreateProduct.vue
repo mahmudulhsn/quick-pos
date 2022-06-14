@@ -253,7 +253,7 @@ export default {
           });
         })
         .catch((error) => {
-          consol.log(error);
+          console.log(error);
         });
     },
     previewImage(event) {
