@@ -10,7 +10,10 @@
         Stock:<span class="font-bold"> {{ product.quantity }}</span>
       </h1>
     </div>
-    <button class="py-2 px-3 bg-blue-500 rounded font-bold text-white">
+    <button
+      class="py-2 px-3 bg-blue-500 rounded font-bold text-white"
+      @click="addToCart(product)"
+    >
       Add to Cart
     </button>
   </div>
@@ -21,6 +24,11 @@ export default {
   props: {
     product: {
       type: Object,
+    },
+  },
+  methods: {
+    addToCart(product) {
+      this.eventBus.emit("addToCart", product);
     },
   },
 };

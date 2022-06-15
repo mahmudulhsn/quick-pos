@@ -10,7 +10,9 @@
           justify-between
         "
       >
-        <h1 class="text-center font-bold text-xl">All Products</h1>
+        <h1 class="text-center font-bold text-xl">
+          All Products ({{ products.length }})
+        </h1>
         <div class="text-center">
           <input
             type="text"
