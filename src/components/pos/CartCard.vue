@@ -17,6 +17,39 @@
         </div>
         <!-- single cart item -->
       </div>
+
+      <!-- checkout section -->
+      <div class="checkout pt-10 pb-2">
+        <div class="w-full">
+          <button
+            @click="showOrderDetailsModal"
+            class="
+              float-right
+              bg-teal-800
+              px-4
+              py-2
+              text-white
+              font-bold
+              rounded
+            "
+          >
+            Checkout
+          </button>
+
+          <!-- modal -->
+          <CheckoutModal
+            :showOrderDetails="showOrderDetails"
+            @closeOrderDetailsModal="closeOrderDetailsModal"
+            :cartProducts="cartProducts"
+            :total="total"
+            :discount="discount"
+            :finalTotal="finalTotal"
+          />
+          <!-- modal -->
+        </div>
+      </div>
+      <!-- checkout section -->
+
       <div class="cart-footer pt-10 pb-2">
         <!-- subtotal  -->
         <div
@@ -49,7 +82,7 @@
           <h5>
             <input
               class="w-24 text-center text-green-500 rounded focus:outline-none"
-              type="text"
+              type="number"
               v-model="discount"
               @keyup.enter="countDiscount"
             />
@@ -87,10 +120,12 @@
 </template>
 
 <script>
+import CheckoutModal from "./CheckoutModal.vue";
 import SingleCartProduct from "./SingleCartProduct.vue";
 export default {
   components: {
     SingleCartProduct,
+    CheckoutModal,
   },
   data() {
     return {
@@ -98,6 +133,7 @@ export default {
       total: 0,
       finalTotal: 0,
       discount: 0,
+      showOrderDetails: false,
     };
   },
 
@@ -153,8 +189,8 @@ export default {
   methods: {
     // count discount
     countDiscount() {
-      if (this.total - this.discount > 0) {
-        this.finalTotal = this.total - this.discount;
+      if (this.total - parseFloat(this.discount) > 0) {
+        this.finalTotal = this.total - parseFloat(this.discount);
       } else {
         this.finalTotal = 0;
         this.discount = 0;
@@ -264,6 +300,14 @@ export default {
       }
       this.total -= tempFinalTotal;
       this.countDiscount();
+    },
+
+    showOrderDetailsModal() {
+      this.showOrderDetails = true;
+    },
+
+    closeOrderDetailsModal() {
+      this.showOrderDetails = false;
     },
   },
 };
