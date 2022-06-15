@@ -1,222 +1,23 @@
 <template>
   <div>
     <div class="flex w-full space-x-2">
-      <div class="w-2/6 bg-gray-200 shadow-xl rounded h-fit">
-        <div class="mx-2">
-          <div class="cart-title py-3 border-b-2 border-gray-500">
-            <h1 class="text-center font-bold text-xl">Cart Items (5)</h1>
-          </div>
-          <div class="cart-details my-2">
-            <!-- single cart item -->
-            <div
-              class="
-                single-cart
-                shadow-md
-                bg-slate-100
-                rounded
-                py-3
-                my-3
-                relative
-              "
-            >
-              <span
-                class="
-                  absolute
-                  top-0
-                  right-0
-                  px-2
-                  bg-red-600
-                  rounded
-                  text-white
-                  cursor-pointer
-                "
-                ><i class="fa-solid fa-xmark"></i
-              ></span>
-              <h5 class="text-center py-1 text-lg text-bold my-1">
-                Boots Tampon
-              </h5>
-              <div class="md:flex space-x-2 mx-2">
-                <div class="md:w-2/5 flex space-x-2 sm:w-full">
-                  <div
-                    class="
-                      py-1
-                      px-3
-                      bg-gray-300
-                      rounded
-                      cursor-pointer
-                      font-bold
-                    "
-                  >
-                    -
-                  </div>
-                  <div class="py-1">2</div>
-                  <div
-                    class="
-                      py-1
-                      px-3
-                      bg-gray-300
-                      rounded
-                      cursor-pointer
-                      font-bold
-                    "
-                  >
-                    +
-                  </div>
-                </div>
-                <div class="md:w-1/5 text-center py-1 font-bold sm:w-full">
-                  X
-                </div>
-                <div class="md:w-2/5 bg-gray-300 mr-2 rounded sm:w-full">
-                  <div class="text-right mr-2 py-1 font-bold sm:text-center">
-                    680
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- single cart item -->
-          </div>
-          <div class="cart-footer pt-10 pb-2">
-            <!-- subtotal  -->
-            <div
-              class="
-                sub-total
-                justify-between
-                flex
-                font-bold
-                py-2
-                border-y border-gray-500
-              "
-            >
-              <h5>Subtotal</h5>
-              <h5>500</h5>
-            </div>
-            <!-- subtotal -->
+      <!-- cart Card -->
+      <CartCard />
+      <!-- Cart Card -->
 
-            <!-- discount -->
-            <div
-              class="
-                sub-total
-                justify-between
-                flex
-                font-bold
-                py-2
-                border-b border-gray-500
-              "
-            >
-              <h5>Discount</h5>
-              <h5>0</h5>
-            </div>
-            <!-- discount -->
-
-            <!-- discount -->
-            <div class="sub-total justify-between flex font-bold py-2">
-              <h5>Total</h5>
-              <h5>500</h5>
-            </div>
-            <!-- discount -->
-          </div>
-        </div>
-      </div>
-
-      <div class="w-4/6 bg-gray-200 shadow-xl rounded">
-        <div class="mx-2">
-          <div
-            class="
-              product-title
-              py-3
-              border-b-2 border-gray-500
-              flex
-              justify-between
-            "
-          >
-            <h1 class="text-center font-bold text-xl">All Products</h1>
-            <div class="text-center">
-              <input
-                type="text"
-                placeholder="Search here..."
-                class="
-                  appearance-none
-                  border
-                  rounded
-                  w-full
-                  py-1
-                  px-3
-                  text-gray-700
-                  leading-tight
-                  focus:shadow-outline focus:outline-2
-                  outline-blue-500/60
-                "
-              />
-            </div>
-          </div>
-          <div class="product-details my-3 grid grid-cols-3 gap-3 text-center">
-            <!-- single product -->
-            <div class="bg-white rounded py-3 shadow-lg shadow-gray-500/50">
-              <div class="product-details pb-5">
-                <img
-                  class="w-full"
-                  src="../images/asda-applicator-regular.jpg"
-                  alt=""
-                />
-                <h1 class="title text-md font-bold">Boots Tampon Super Plus</h1>
-                <h1>Price:<span class="font-bold"> 600</span></h1>
-                <h1>Stock:<span class="font-bold"> 50</span></h1>
-              </div>
-              <button
-                class="py-2 px-3 bg-blue-500 rounded font-bold text-white"
-              >
-                Add to Cart
-              </button>
-            </div>
-            <!-- single product -->
-            <!-- single product -->
-            <div class="bg-white rounded py-3 shadow-lg shadow-gray-500/50">
-              <div class="product-details pb-5">
-                <img
-                  class="w-full"
-                  src="../images/asda-applicator-supar-plus.jpg"
-                  alt=""
-                />
-                <h1 class="title text-md font-bold">Boots Tampon Super Plus</h1>
-                <h1>Price:<span class="font-bold"> 600</span></h1>
-                <h1>Stock:<span class="font-bold"> 50</span></h1>
-              </div>
-              <button
-                class="py-2 px-3 bg-blue-500 rounded font-bold text-white"
-              >
-                Add to Cart
-              </button>
-            </div>
-            <!-- single product -->
-            <!-- single product -->
-            <div class="bg-white rounded py-3 shadow-lg shadow-gray-500/50">
-              <div class="product-details pb-5">
-                <img
-                  class="w-full"
-                  src="../images/asda-applicator-supar.jpg"
-                  alt=""
-                />
-                <h1 class="title text-md font-bold">Boots Tampon Super Plus</h1>
-                <h1>Price:<span class="font-bold"> 600</span></h1>
-                <h1>Stock:<span class="font-bold"> 50</span></h1>
-              </div>
-              <button
-                class="py-2 px-3 bg-blue-500 rounded font-bold text-white"
-              >
-                Add to Cart
-              </button>
-            </div>
-            <!-- single product -->
-          </div>
-        </div>
-      </div>
+      <!-- products card -->
+      <ProductCard />
+      <!-- products card -->
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import CartCard from "../components/pos/CartCard.vue";
+import ProductCard from "../components/pos/ProductCard.vue";
+export default {
+  components: { CartCard, ProductCard },
+};
 </script>
-
 <style lang="scss" scoped>
 </style>
