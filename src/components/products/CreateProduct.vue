@@ -64,10 +64,7 @@
                 v-model="product.name"
               />
               <!-- error message -->
-              <ErrorMessage
-                v-if="this.errors.name"
-                :message="this.errors.name"
-              />
+              <ErrorMessage v-if="nameValidation" :message="nameValidation" />
               <!-- error message -->
             </div>
             <!-- input end -->
@@ -120,10 +117,7 @@
                 </div>
               </div>
               <!-- error message -->
-              <ErrorMessage
-                v-if="this.errors.image"
-                :message="this.errors.image"
-              />
+              <ErrorMessage v-if="imageValidation" :message="imageValidation" />
               <!-- error message -->
             </div>
             <!-- input end -->
@@ -153,10 +147,7 @@
                 v-model="product.price"
               />
               <!-- error message -->
-              <ErrorMessage
-                v-if="this.errors.price"
-                :message="this.errors.price"
-              />
+              <ErrorMessage v-if="priceValidation" :message="priceValidation" />
               <!-- error message -->
             </div>
             <!-- input end -->
@@ -187,8 +178,8 @@
               />
               <!-- error message -->
               <ErrorMessage
-                v-if="this.errors.quantity"
-                :message="this.errors.quantity"
+                v-if="quantityValidation"
+                :message="quantityValidation"
               />
               <!-- error message -->
             </div>
@@ -255,14 +246,18 @@ export default {
       },
     };
   },
-  methods: {
-    // validation
-    validated() {
+  computed: {
+    nameValidation() {
       if (this.product.name == "" || this.product.name == null) {
         this.errors.name = "Name field is required!";
       } else {
         this.errors.name = null;
       }
+
+      return this.errors.name;
+    },
+
+    priceValidation() {
       if (this.product.price == "" || this.product.price == null) {
         this.errors.price = "Price field is required!";
       } else if (isNaN(this.product.price)) {
@@ -270,6 +265,10 @@ export default {
       } else {
         this.errors.price = null;
       }
+      return this.errors.price;
+    },
+
+    quantityValidation() {
       if (this.product.quantity == "" || this.product.quantity == null) {
         this.errors.quantity = "Quantity field is required!";
       } else if (isNaN(this.product.quantity)) {
@@ -277,12 +276,22 @@ export default {
       } else {
         this.errors.quantity = null;
       }
+      return this.errors.quantity;
+    },
+
+    imageValidation() {
       if (this.product.image == null) {
         this.errors.image = "Image field is required!";
       } else {
         this.errors.image = null;
       }
 
+      return this.errors.image;
+    },
+  },
+  methods: {
+    // validation
+    validated() {
       if (
         this.errors.image === null &&
         this.errors.quantity === null &&
@@ -292,8 +301,6 @@ export default {
         this.errors = {};
       }
       const isEmpty = Object.keys(this.errors).length === 0;
-      // console.log(isEmpty);
-      // console.log(this.errors);
 
       return isEmpty;
     },
