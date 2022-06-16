@@ -63,6 +63,12 @@
                 placeholder="Product Name"
                 v-model="product.name"
               />
+              <!-- error message -->
+              <ErrorMessage
+                v-if="this.errors.name"
+                :message="this.errors.name"
+              />
+              <!-- error message -->
             </div>
             <!-- input end -->
 
@@ -113,12 +119,18 @@
                   </div>
                 </div>
               </div>
+              <!-- error message -->
+              <ErrorMessage
+                v-if="this.errors.image"
+                :message="this.errors.image"
+              />
+              <!-- error message -->
             </div>
             <!-- input end -->
 
             <!-- input start -->
             <div class="from-group w-full">
-              <label for="name" class="w-full align-start">
+              <label for="price" class="w-full align-start">
                 <span class="py-2 float-left text-md font-bold"
                   >Product Price: *
                 </span>
@@ -140,12 +152,18 @@
                 placeholder="Product Price"
                 v-model="product.price"
               />
+              <!-- error message -->
+              <ErrorMessage
+                v-if="this.errors.price"
+                :message="this.errors.price"
+              />
+              <!-- error message -->
             </div>
             <!-- input end -->
 
             <!-- input start -->
             <div class="from-group w-full">
-              <label for="name" class="w-full align-start">
+              <label for="quantity" class="w-full align-start">
                 <span class="py-2 float-left text-md font-bold"
                   >Product Quantity: *
                 </span>
@@ -167,6 +185,12 @@
                 placeholder="Product Quantity"
                 v-model="product.quantity"
               />
+              <!-- error message -->
+              <ErrorMessage
+                v-if="this.errors.quantity"
+                :message="this.errors.quantity"
+              />
+              <!-- error message -->
             </div>
             <!-- input end -->
 
@@ -183,7 +207,11 @@
                 justify-between
               "
             >
-              <button type="reset" class="py-2 px-3 bg-red-500 rounded">
+              <button
+                type="reset"
+                class="py-2 px-3 bg-red-500 rounded"
+                @click="resetForm"
+              >
                 Cancel
               </button>
 
@@ -200,7 +228,11 @@
 </template>
 
 <script>
+import ErrorMessage from "../validation/ErrorMessage.vue";
 export default {
+  components: {
+    ErrorMessage,
+  },
   props: {
     isOpenModal: {
       type: Boolean,
@@ -215,46 +247,97 @@ export default {
         image: null,
       },
       preview: null,
+      errors: {
+        // name: null,
+        // price: null,
+        // image: null,
+        // quantity: null,
+      },
     };
   },
   methods: {
+    // validation
+    validated() {
+      if (this.product.name == "" || this.product.name == null) {
+        this.errors.name = "Name field is required!";
+      } else {
+        this.errors.name = null;
+      }
+      if (this.product.price == "" || this.product.price == null) {
+        this.errors.price = "Price field is required!";
+      } else if (isNaN(this.product.price)) {
+        this.errors.price = "Price field must be a number!";
+      } else {
+        this.errors.price = null;
+      }
+      if (this.product.quantity == "" || this.product.quantity == null) {
+        this.errors.quantity = "Quantity field is required!";
+      } else if (isNaN(this.product.quantity)) {
+        this.errors.quantity = "Quantity field must be a number!";
+      } else {
+        this.errors.quantity = null;
+      }
+      if (this.product.image == null) {
+        this.errors.image = "Image field is required!";
+      } else {
+        this.errors.image = null;
+      }
+
+      if (
+        this.errors.image === null &&
+        this.errors.quantity === null &&
+        this.errors.price === null &&
+        this.errors.name === null
+      ) {
+        this.errors = {};
+      }
+      const isEmpty = Object.keys(this.errors).length === 0;
+      // console.log(isEmpty);
+      // console.log(this.errors);
+
+      return isEmpty;
+    },
     closeModal() {
       this.$emit("modalClose");
     },
     addProduct() {
-      let formData = new FormData();
-      formData.append("image", this.product.image);
-      formData.append("name", this.product.name);
-      formData.append("price", this.product.price);
-      formData.append("quantity", this.product.quantity);
-      this.$store
-        .dispatch("createProduct", formData)
-        .then((response) => {
-          this.$emit("newProductCreated", response);
-          this.product = {};
-          this.closeModal();
-          this.reset();
+      if (this.validated()) {
+        let formData = new FormData();
+        formData.append("image", this.product.image);
+        formData.append("name", this.product.name);
+        formData.append("price", this.product.price);
+        formData.append("quantity", this.product.quantity);
 
-          const Toast = this.$swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener("mouseenter", this.$swal.stopTimer);
-              toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-            },
-          });
+        this.$store
+          .dispatch("createProduct", formData)
+          .then((response) => {
+            this.closeModal();
 
-          Toast.fire({
-            icon: "success",
-            title: "Product Added Successfully",
+            const Toast = this.$swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+              },
+            });
+
+            Toast.fire({
+              icon: "success",
+              title: "Product Added Successfully",
+            });
+            this.product = {};
+            this.errors = {};
+            this.reset();
+            this.$emit("newProductCreated", response);
+          })
+          .catch((error) => {
+            console.log(error);
           });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      }
     },
     previewImage(event) {
       var input = event.target;
@@ -271,6 +354,10 @@ export default {
       this.product.image = null;
       this.preview = null;
       this.$refs.product_image.value = null;
+    },
+    resetForm() {
+      this.reset();
+      (this.product = {}), (this.errors = {});
     },
   },
 };
