@@ -304,9 +304,13 @@ export default {
 
       return isEmpty;
     },
+
+    // close modal
     closeModal() {
       this.$emit("modalClose");
     },
+
+    // create product
     addProduct() {
       if (this.validated()) {
         let formData = new FormData();
@@ -346,6 +350,8 @@ export default {
           });
       }
     },
+
+    // preview image
     previewImage(event) {
       var input = event.target;
       if (input.files) {
@@ -357,11 +363,15 @@ export default {
         reader.readAsDataURL(input.files[0]);
       }
     },
+
+    // reset image
     reset() {
       this.product.image = null;
       this.preview = null;
       this.$refs.product_image.value = null;
     },
+
+    // reset form
     resetForm() {
       this.reset();
       (this.product = {}), (this.errors = {});

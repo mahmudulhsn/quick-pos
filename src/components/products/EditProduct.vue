@@ -59,6 +59,9 @@
                 placeholder="Product Name"
                 v-model="product.name"
               />
+              <!-- error message -->
+              <ErrorMessage v-if="nameValidation" :message="nameValidation" />
+              <!-- error message -->
             </div>
             <!-- input end -->
 
@@ -136,6 +139,9 @@
                 placeholder="Product Price"
                 v-model="product.price"
               />
+              <!-- error message -->
+              <ErrorMessage v-if="priceValidation" :message="priceValidation" />
+              <!-- error message -->
             </div>
             <!-- input end -->
 
@@ -163,6 +169,12 @@
                 placeholder="Product Quantity"
                 v-model="product.quantity"
               />
+              <!-- error message -->
+              <ErrorMessage
+                v-if="quantityValidation"
+                :message="quantityValidation"
+              />
+              <!-- error message -->
             </div>
             <!-- input end -->
 
@@ -196,7 +208,11 @@
 </template>
 
 <script>
+import ErrorMessage from "../validation/ErrorMessage.vue";
 export default {
+  components: {
+    ErrorMessage,
+  },
   props: {
     openEditModal: {
       type: Boolean,
@@ -212,7 +228,41 @@ export default {
         image: null,
       },
       preview: null,
+      errors: {},
     };
+  },
+  computed: {
+    nameValidation() {
+      if (this.product.name == "" || this.product.name == null) {
+        this.errors.name = "Name field is required!";
+      } else {
+        this.errors.name = null;
+      }
+
+      return this.errors.name;
+    },
+
+    priceValidation() {
+      if (this.product.price == "" || this.product.price == null) {
+        this.errors.price = "Price field is required!";
+      } else if (isNaN(this.product.price)) {
+        this.errors.price = "Price field must be a number!";
+      } else {
+        this.errors.price = null;
+      }
+      return this.errors.price;
+    },
+
+    quantityValidation() {
+      if (this.product.quantity == "" || this.product.quantity == null) {
+        this.errors.quantity = "Quantity field is required!";
+      } else if (isNaN(this.product.quantity)) {
+        this.errors.quantity = "Quantity field must be a number!";
+      } else {
+        this.errors.quantity = null;
+      }
+      return this.errors.quantity;
+    },
   },
   //   mounted() {
   //     this.getSingleProduct();
@@ -227,51 +277,72 @@ export default {
     });
   },
   methods: {
+    // validation
+    validated() {
+      if (
+        this.errors.quantity === null &&
+        this.errors.price === null &&
+        this.errors.name === null
+      ) {
+        this.errors = {};
+      }
+      const isEmpty = Object.keys(this.errors).length === 0;
+
+      return isEmpty;
+    },
+
+    // close modal
     closeModal() {
       this.eventBus.emit("closeEditModal");
     },
+
+    // update product
     updateProduct() {
-      const formData = new FormData();
-      formData.append("image", this.product.image);
-      formData.append("name", this.product.name);
-      formData.append("price", this.product.price);
-      formData.append("quantity", this.product.quantity);
-      formData.append("_method", "put");
+      if (this.validated()) {
+        const formData = new FormData();
+        formData.append("image", this.product.image);
+        formData.append("name", this.product.name);
+        formData.append("price", this.product.price);
+        formData.append("quantity", this.product.quantity);
+        formData.append("_method", "put");
 
-      const updateProductDetails = {
-        productID: this.product.id,
-        updateInfo: formData,
-      };
+        const updateProductDetails = {
+          productID: this.product.id,
+          updateInfo: formData,
+        };
 
-      this.$store
-        .dispatch("updateProduct", updateProductDetails)
-        .then((response) => {
-          this.$emit("productUpdated", response.data.data);
-          // this.product = {};
-          this.reset();
-          this.closeModal();
+        this.$store
+          .dispatch("updateProduct", updateProductDetails)
+          .then((response) => {
+            this.$emit("productUpdated", response.data.data);
+            // this.product = {};
+            this.reset();
+            this.closeModal();
 
-          const Toast = this.$swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener("mouseenter", this.$swal.stopTimer);
-              toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-            },
+            const Toast = this.$swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+              },
+            });
+
+            Toast.fire({
+              icon: "success",
+              title: response.data.message,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
           });
-
-          Toast.fire({
-            icon: "success",
-            title: response.data.message,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      }
     },
+
+    // image preview
     previewImage(event) {
       var input = event.target;
       if (input.files) {
@@ -283,6 +354,8 @@ export default {
         reader.readAsDataURL(input.files[0]);
       }
     },
+
+    // reset
     reset() {
       this.product.image = null;
       this.preview = null;
