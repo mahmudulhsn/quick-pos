@@ -206,7 +206,12 @@
                 Cancel
               </button>
 
-              <button type="submit" class="py-2 px-3 bg-blue-500 rounded">
+              <button
+                type="submit"
+                class="py-2 px-3 bg-blue-500 rounded"
+                :class="{ 'bg-gray-500': !isValidated }"
+                :disabled="!isValidated"
+              >
                 Submit
               </button>
             </div>
@@ -288,10 +293,8 @@ export default {
 
       return this.errors.image;
     },
-  },
-  methods: {
-    // validation
-    validated() {
+
+    isValidated() {
       if (
         this.errors.image === null &&
         this.errors.quantity === null &&
@@ -304,6 +307,22 @@ export default {
 
       return isEmpty;
     },
+  },
+  methods: {
+    // validation
+    // validated() {
+    //   if (
+    //     this.errors.image === null &&
+    //     this.errors.quantity === null &&
+    //     this.errors.price === null &&
+    //     this.errors.name === null
+    //   ) {
+    //     this.errors = {};
+    //   }
+    //   const isEmpty = Object.keys(this.errors).length === 0;
+
+    //   return isEmpty;
+    // },
 
     // close modal
     closeModal() {
@@ -312,43 +331,43 @@ export default {
 
     // create product
     addProduct() {
-      if (this.validated()) {
-        let formData = new FormData();
-        formData.append("image", this.product.image);
-        formData.append("name", this.product.name);
-        formData.append("price", this.product.price);
-        formData.append("quantity", this.product.quantity);
+      // if (this.validated()) {
+      let formData = new FormData();
+      formData.append("image", this.product.image);
+      formData.append("name", this.product.name);
+      formData.append("price", this.product.price);
+      formData.append("quantity", this.product.quantity);
 
-        this.$store
-          .dispatch("createProduct", formData)
-          .then((response) => {
-            this.closeModal();
+      this.$store
+        .dispatch("createProduct", formData)
+        .then((response) => {
+          this.closeModal();
 
-            const Toast = this.$swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 3000,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener("mouseenter", this.$swal.stopTimer);
-                toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-              },
-            });
-
-            Toast.fire({
-              icon: "success",
-              title: "Product Added Successfully",
-            });
-            this.product = {};
-            this.errors = {};
-            this.reset();
-            this.$emit("newProductCreated", response);
-          })
-          .catch((error) => {
-            console.log(error);
+          const Toast = this.$swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener("mouseenter", this.$swal.stopTimer);
+              toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+            },
           });
-      }
+
+          Toast.fire({
+            icon: "success",
+            title: "Product Added Successfully",
+          });
+          this.product = {};
+          this.errors = {};
+          this.reset();
+          this.$emit("newProductCreated", response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      // }
     },
 
     // preview image
