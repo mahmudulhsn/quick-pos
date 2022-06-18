@@ -26,6 +26,12 @@
                 <span>Dashboard</span>
               </li>
             </RouterLink>
+            <RouterLink to="/customers">
+              <li class="py-2 hover:bg-gray-500 rounded">
+                <span class="px-2"><i class="fas fa-users"></i></span>
+                <span>Customers</span>
+              </li>
+            </RouterLink>
             <RouterLink to="/products">
               <li class="py-2 hover:bg-gray-500 rounded">
                 <span class="px-2"

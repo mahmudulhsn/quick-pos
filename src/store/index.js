@@ -8,6 +8,7 @@ const store = createStore({
     token: localStorage.getItem("accessToken") || null,
     loggedInUser: {},
     products: [],
+    customers: [],
   },
   getters: {
     isLoggedIn(state) {
@@ -31,6 +32,11 @@ const store = createStore({
     // get all products
     getProducts(state, products) {
       state.products = products;
+    },
+
+    // get all customers
+    getCustomers(state, customers) {
+      state.customers = customers;
     },
   },
   actions: {
@@ -183,6 +189,104 @@ const store = createStore({
       return new Promise((resolve, reject) => {
         axios
           .delete(`/products/${productID}`, {
+            headers: {
+              Authorization: "Bearer " + context.state.token,
+            },
+          })
+          .then((response) => {
+            resolve(response.data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+
+    // get all customers
+    getCustomers(context) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get("/customers", {
+            headers: {
+              Authorization: "Bearer " + context.state.token,
+            },
+          })
+          .then((response) => {
+            context.commit("getCustomers", response.data);
+            resolve(response.data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+
+    // create new product
+    createCustomer(context, customer) {
+      const config = {
+        headers: {
+          Authorization: "Bearer " + context.state.token,
+        },
+      };
+      return new Promise((resolve, reject) => {
+        axios
+          .post("/customers", customer, config)
+          .then((response) => {
+            resolve(response.data.data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+
+    // get single customer
+    getSingleCustomer(context, customerID) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/customers/${customerID}`, {
+            headers: {
+              Authorization: "Bearer " + context.state.token,
+            },
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+
+    // update customer
+    updateCustomer(context, updateCustomerDetails) {
+      const config = {
+        headers: {
+          Authorization: "Bearer " + context.state.token,
+        },
+      };
+
+      return new Promise((resolve, reject) => {
+        axios
+          .put(
+            `/customers/${updateCustomerDetails.customerID}`,
+            updateCustomerDetails.updateInfo,
+            config
+          )
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+
+    // delete customer
+    deleteCustomer(context, customerID) {
+      return new Promise((resolve, reject) => {
+        axios
+          .delete(`/customers/${customerID}`, {
             headers: {
               Authorization: "Bearer " + context.state.token,
             },
