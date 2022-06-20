@@ -9,6 +9,7 @@ const store = createStore({
     loggedInUser: {},
     products: [],
     customers: [],
+    orders: [],
   },
   getters: {
     isLoggedIn(state) {
@@ -37,6 +38,11 @@ const store = createStore({
     // get all customers
     getCustomers(state, customers) {
       state.customers = customers;
+    },
+
+    // get all orders
+    getOrders(state, orders) {
+      state.orders = orders;
     },
   },
   actions: {
@@ -293,6 +299,45 @@ const store = createStore({
           })
           .then((response) => {
             resolve(response.data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+
+    // get all orders
+    getOrders(context) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get("/orders", {
+            headers: {
+              Authorization: "Bearer " + context.state.token,
+            },
+          })
+          .then((response) => {
+            context.commit("getOrders", response.data);
+            resolve(response.data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+
+    // create order
+    createOrder(context, order) {
+      const config = {
+        headers: {
+          Authorization: "Bearer " + context.state.token,
+        },
+      };
+      return new Promise((resolve, reject) => {
+        axios
+          .post("/orders", order, config)
+          .then((response) => {
+            console.log(response.data.data);
+            resolve(response.data.data);
           })
           .catch((error) => {
             reject(error);

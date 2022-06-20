@@ -21,19 +21,36 @@
         <nav>
           <ul class="">
             <RouterLink to="/">
-              <li class="py-2 hover:bg-gray-500 rounded">
+              <li
+                class="py-2 hover:bg-gray-500 rounded"
+                :class="{
+                  'bg-blue-500 hover:bg-blue-500':
+                    currentUrlName == 'Dashboard',
+                }"
+              >
                 <span class="px-2"><i class="fa-solid fa-gauge"></i></span>
                 <span>Dashboard</span>
               </li>
             </RouterLink>
             <RouterLink to="/customers">
-              <li class="py-2 hover:bg-gray-500 rounded">
+              <li
+                class="py-2 hover:bg-gray-500 rounded"
+                :class="{
+                  'bg-blue-500 hover:bg-blue-500':
+                    currentUrlName == 'Customers',
+                }"
+              >
                 <span class="px-2"><i class="fas fa-users"></i></span>
                 <span>Customers</span>
               </li>
             </RouterLink>
             <RouterLink to="/products">
-              <li class="py-2 hover:bg-gray-500 rounded">
+              <li
+                class="py-2 hover:bg-gray-500 rounded"
+                :class="{
+                  'bg-blue-500 hover:bg-blue-500': currentUrlName == 'Products',
+                }"
+              >
                 <span class="px-2"
                   ><i class="fa-brands fa-product-hunt"></i
                 ></span>
@@ -41,11 +58,27 @@
               </li>
             </RouterLink>
             <RouterLink to="/pos">
-              <li class="py-2 hover:bg-gray-500 rounded">
+              <li
+                class="py-2 hover:bg-gray-500 rounded"
+                :class="{
+                  'bg-blue-500 hover:bg-blue-500': currentUrlName == 'POS',
+                }"
+              >
                 <span class="px-2"
                   ><i class="fa-brands fa-product-hunt"></i
                 ></span>
                 <span>POS</span>
+              </li>
+            </RouterLink>
+            <RouterLink to="/orders">
+              <li
+                class="py-2 hover:bg-gray-500 rounded"
+                :class="{
+                  'bg-blue-500 hover:bg-blue-500': currentUrlName == 'Orders',
+                }"
+              >
+                <span class="px-2"><i class="fas fa-box-open"></i></span>
+                <span>Orders</span>
               </li>
             </RouterLink>
           </ul>
@@ -60,6 +93,12 @@ export default {
   props: {
     user: {
       type: Object,
+    },
+  },
+
+  computed: {
+    currentUrlName() {
+      return this.$route.name;
     },
   },
 };

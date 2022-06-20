@@ -52,24 +52,7 @@
             v-model="search"
           />
         </div>
-        <div class="w-1/2">
-          <button
-            class="
-              float-right
-              px-5
-              py-2
-              bg-blue-500
-              text-white
-              rounded
-              hover:bg-indigo-500
-              ease-out
-              duration-300
-            "
-            @click="openModal"
-          >
-            Create new customer
-          </button>
-        </div>
+        <div class="w-1/2"></div>
       </div>
       <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead
@@ -82,104 +65,58 @@
         >
           <tr>
             <!-- <th scope="col" class="p-4">#SL</th> -->
+            <th scope="col" class="px-6 py-3">Order ID</th>
             <th scope="col" class="px-6 py-3">Name</th>
             <th scope="col" class="px-6 py-3">Phone</th>
-            <th scope="col" class="px-6 py-3">Email</th>
+            <th scope="col" class="px-6 py-3">Total Amount</th>
             <th scope="col" class="px-6 py-3 text-right">Actions</th>
           </tr>
         </thead>
-        <tbody v-for="(customer, index) in filteredCustomers" :key="index">
-          <SingleCustomer
-            :customer="customer"
-            @customerDeleted="deleteCustomer"
-          />
+        <tbody v-for="(order, index) in filteredOrders" :key="index">
+          <SingleOrder :order="order" />
         </tbody>
       </table>
     </div>
-
-    <!-- modal -->
-    <CreateCustomer
-      :isOpenModal="isModalOpen"
-      @modalClose="closeModal"
-      @newCustomerCreated="createdNewCustomer"
-    />
-    <!-- end model -->
-
-    <!-- edit modal -->
-    <EditCustomer
-      :openEditModal="openEditModal"
-      @customerUpdated="customerUpdated"
-    />
-    <!-- end edit model -->
   </div>
 </template>
 
 <script>
-import EditCustomer from "../components/customers/EditCustomer.vue";
-import CreateCustomer from "../components/customers/CreateCustomer.vue";
-import SingleCustomer from "../components/customers/SingleCustomer.vue";
+import SingleOrder from "../components/orders/SingleOrder.vue";
 export default {
-  components: { SingleCustomer, CreateCustomer, EditCustomer },
+  components: { SingleOrder },
   data() {
     return {
-      isModalOpen: false,
-      openEditModal: false,
       search: "",
-      customers: [],
-      customer: {},
+      orders: [],
+      order: {},
     };
   },
   mounted() {
-    this.getAllCustomers();
+    this.getAllOrders();
   },
   created() {
-    this.eventBus.on("openEditModal", (customer) => {
-      this.openEditModal = true;
-      this.customer = customer.customer;
-    });
-    this.eventBus.on("closeEditModal", () => {
-      this.openEditModal = false;
+    this.eventBus.on("newOrderCreated", (order) => {
+      console.log("sd");
+      this.orders.unshift(order);
     });
   },
   computed: {
-    filteredCustomers() {
-      return this.customers.filter((customer) => {
-        return customer.name.toLowerCase().includes(this.search.toLowerCase());
+    filteredOrders() {
+      return this.orders.filter((order) => {
+        return order.order_id.toLowerCase().includes(this.search.toLowerCase());
       });
     },
   },
   methods: {
-    openModal() {
-      this.isModalOpen = true;
-    },
-    closeModal() {
-      this.isModalOpen = false;
-    },
-    getAllCustomers() {
+    getAllOrders() {
       this.$store
-        .dispatch("getCustomers")
+        .dispatch("getOrders")
         .then((response) => {
-          this.customers = response.data;
+          this.orders = response.data;
         })
         .catch((error) => {
           console.log(error);
         });
-    },
-
-    createdNewCustomer(customer) {
-      this.customers.unshift(customer);
-    },
-
-    customerUpdated(updatedCustomer) {
-      const item = updatedCustomer;
-      this.customers = this.customers.map((x) => (x.id === item.id ? item : x));
-    },
-
-    deleteCustomer(customerID) {
-      this.customers.splice(
-        this.customers.find((item) => item.id === customerID),
-        1
-      );
     },
   },
 };

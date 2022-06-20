@@ -297,7 +297,6 @@ export default {
       this.$store
         .dispatch("createCustomer", this.customer)
         .then((response) => {
-          console.log("res", response);
           this.closeModal();
 
           const Toast = this.$swal.mixin({
