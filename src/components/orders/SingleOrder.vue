@@ -27,7 +27,7 @@
     <td class="px-6 py-4 float-right space-x-3 items-center content-end">
       <button
         class="font-medium text-white py-2 px-3 bg-sky-500 rounded"
-        @click.prevent="editOrder(order.id)"
+        @click.prevent="showOrderDetails(order.id)"
       >
         <i class="fas fa-edit"></i>
       </button>
@@ -45,11 +45,11 @@ export default {
 
   methods: {
     // edit customer
-    editCustomer(customerID) {
+    showOrderDetails(orderID) {
       this.$store
-        .dispatch("getSingleCustomer", customerID)
+        .dispatch("getSingleOrder", orderID)
         .then((response) => {
-          this.eventBus.emit("openEditModal", response.data.data);
+          this.eventBus.emit("openShowDetailsModal", response.data.data);
         })
         .catch((error) => {
           console.log(error);

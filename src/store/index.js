@@ -344,6 +344,24 @@ const store = createStore({
           });
       });
     },
+
+    // get single order
+    getSingleOrder(context, orderID) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/orders/${orderID}`, {
+            headers: {
+              Authorization: "Bearer " + context.state.token,
+            },
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
   },
 });
 

@@ -77,18 +77,22 @@
         </tbody>
       </table>
     </div>
+
+    <!-- show modal -->
+    <ShowOrderDetails />
+    <!-- end show model -->
   </div>
 </template>
 
 <script>
+import ShowOrderDetails from "../components/orders/ShowOrderDetails.vue";
 import SingleOrder from "../components/orders/SingleOrder.vue";
 export default {
-  components: { SingleOrder },
+  components: { SingleOrder, ShowOrderDetails },
   data() {
     return {
       search: "",
       orders: [],
-      order: {},
     };
   },
   mounted() {
@@ -96,7 +100,6 @@ export default {
   },
   created() {
     this.eventBus.on("newOrderCreated", (order) => {
-      console.log("sd");
       this.orders.unshift(order);
     });
   },

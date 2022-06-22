@@ -28,7 +28,7 @@
         >
           <h4 class="font-bold text-2xl">Order Details</h4>
           <span
-            @click="$emit('closeOrderDetailsModal')"
+            @click="closeModal"
             class="cursor-pointer px-3 py-1 bg-red-700 rounded hover:bg-red-900"
           >
             <i class="fa-solid fa-xmark"></i>
@@ -41,56 +41,22 @@
           <!-- customer selection section -->
           <div class="flex justify-between content-start mt-4 mb-4 space-x-4">
             <div>
-              <label for="customer" class="text-xl">Select a Customer: </label>
+              <label for="customer" class="text-xl">Customer: </label>
             </div>
             <div>
-              <select
-                v-model="customer_id"
-                class="text-black max-w-full py-2 px-2 rounded w-full"
-              >
-                <option
-                  v-for="(customer, index) in customers"
-                  :key="index"
-                  :value="customer.id"
-                >
-                  {{ customer.name }} ({{ customer.phone }})
-                </option>
-              </select>
-              <!-- error message -->
-              <ErrorMessage
-                v-if="customerValidation"
-                :message="customerValidation"
-              />
-              <!-- error message -->
-            </div>
-            <div>
-              <button @click="openModal" class="bg-green-700 px-4 py-2 rounded">
-                <i class="fa-solid fa-plus"></i>
-              </button>
-
-              <!-- modal -->
-              <CreateCustomer
-                :isOpenModal="isModalOpen"
-                @modalClose="closeModal"
-                @newCustomerCreated="createdNewCustomer"
-              />
-              <!-- end model -->
+              <p>{{ order.customer.name }}</p>
             </div>
           </div>
           <!-- customer selection section -->
 
           <!-- customer address section -->
-          <div
-            class="flex justify-between content-start mt-4 mb-4"
-            v-if="this.customer_id"
-          >
+          <div class="flex justify-between content-start mt-4 mb-4">
             <div>
               <label for="customer" class="text-xl">Address: </label>
             </div>
             <div>
-              <p>{{ showAddress }}</p>
+              <p>{{ order.customer.address }}</p>
             </div>
-            <div></div>
           </div>
           <!-- customer address section -->
         </div>
@@ -99,6 +65,9 @@
         <!-- order details section -->
         <div class="order-details mt-5">
           <h1 class="font-bold text-2xl mb-4">Order details</h1>
+          <h1 class="text-left font-bold text-xl mb-4">
+            Order ID: {{ order.order_id }}
+          </h1>
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table
               class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
@@ -120,7 +89,7 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="(product, index) in cartProducts"
+                  v-for="(product, index) in order.order_details"
                   :key="index"
                   class="
                     border-b
@@ -174,7 +143,7 @@
                   <td class="px-6 py-4"></td>
                   <td class="px-6 py-4 text-white font-bold">Subtotal</td>
                   <td class="px-6 py-4 text-white font-bold float-right">
-                    {{ total }}
+                    {{ order.sub_total }}
                   </td>
                 </tr>
                 <tr
@@ -201,7 +170,7 @@
                   <td class="px-6 py-4"></td>
                   <td class="px-6 py-4 text-white font-bold">Discount</td>
                   <td class="px-6 py-4 text-white font-bold float-right">
-                    {{ discount }}
+                    {{ order.discount }}
                   </td>
                 </tr>
                 <tr
@@ -230,27 +199,7 @@
                     Delivery Charge
                   </td>
                   <td class="px-6 py-4 text-white font-bold float-right">
-                    <input
-                      class="
-                        w-16
-                        py-2
-                        px-2
-                        rounded
-                        text-black text-right
-                        focus:shadow-outline focus:outline-2
-                        outline-blue-500/60
-                      "
-                      type="text"
-                      v-model="delivery_charge"
-                    />
-                    <br />
-
-                    <!-- error message -->
-                    <ErrorMessage
-                      v-if="deliveryChargeValidation"
-                      :message="deliveryChargeValidation"
-                    />
-                    <!-- error message -->
+                    {{ order.delivery_charge }}
                   </td>
                 </tr>
                 <tr
@@ -277,7 +226,7 @@
                   <td class="px-6 py-4"></td>
                   <td class="px-6 py-4 text-white font-bold">Total</td>
                   <td class="px-6 py-4 text-white font-bold float-right">
-                    {{ finalTotal + parseFloat(deliveryCharge) }}
+                    {{ order.total }}
                   </td>
                 </tr>
               </tbody>
@@ -288,14 +237,7 @@
 
         <!-- place order -->
         <div class="place-order mt-5 flex justify-end">
-          <button
-            class="px-4 py-2 rounded bg-blue-500"
-            @click="placeOrder"
-            :class="{ 'bg-gray-500': !isValidated }"
-            :disabled="!isValidated"
-          >
-            Place Order
-          </button>
+          <button class="px-4 py-2 rounded bg-blue-500">Print</button>
         </div>
         <!-- place order -->
       </div>
@@ -304,165 +246,27 @@
 </template>
 
 <script>
-import ErrorMessage from "../validation/ErrorMessage.vue";
-import CreateCustomer from "../customers/CreateCustomer.vue";
 export default {
-  components: { CreateCustomer, ErrorMessage },
-  props: {
-    showOrderDetails: {
-      type: Boolean,
-    },
-    cartProducts: {
-      type: Array,
-    },
-    total: {
-      type: Number,
-    },
-    discount: {
-      type: Number,
-    },
-    finalTotal: {
-      type: Number,
-    },
-  },
   data() {
     return {
-      //   showOrderDetails: false,
-      isModalOpen: false,
-      customers: [],
-      customer_id: null,
-      address: "",
-      delivery_charge: 70,
-      errors: {},
-      // order: {
-      //   customer_id: "",
-      //   delivery_charge: 70,
-      //   billing_address: "",
-      //   shipping_address: "",
-      //   order_details: [],
-      //   sub_total: 0,
-      //   discount: 0,
-      //   total: 0,
-      // },
+      showOrderDetails: false,
+      order: {},
     };
   },
-  computed: {
-    deliveryCharge() {
-      return this.delivery_charge != "" ? this.delivery_charge : 0;
-    },
-
-    showAddress() {
-      const selectedCustomer = this.customers.find(
-        (item) => item.id === this.customer_id
-      );
-
-      return (this.address = selectedCustomer.address);
-    },
-
-    customerValidation() {
-      if (this.customer_id == "" || this.customer_id == null) {
-        this.errors.customer_id = "Please select a customer!";
-      } else {
-        this.errors.customer_id = null;
-      }
-      return this.errors.customer_id;
-    },
-
-    deliveryChargeValidation() {
-      if (this.delivery_charge == "" || this.delivery_charge == null) {
-        this.errors.delivery_charge = "Required!";
-      } else {
-        this.errors.delivery_charge = null;
-      }
-      return this.errors.delivery_charge;
-    },
-
-    isValidated() {
-      if (
-        this.errors.customer_id === null &&
-        this.errors.delivery_charge === null
-      ) {
-        this.errors = {};
-      }
-
-      const isEmpty = Object.keys(this.errors).length === 0;
-
-      return isEmpty;
-    },
-  },
-
-  mounted() {
-    this.getAllCustomers();
+  created() {
+    this.eventBus.on("openShowDetailsModal", (order) => {
+      this.order = order;
+      this.showOrderDetails = true;
+    });
   },
   methods: {
-    openModal() {
-      this.isModalOpen = true;
-    },
-
+    // close modal
     closeModal() {
-      this.$emit("modalClose");
-    },
-
-    createdNewCustomer(customer) {
-      this.customers.unshift(customer);
-    },
-
-    getAllCustomers() {
-      this.$store
-        .dispatch("getCustomers")
-        .then((response) => {
-          this.customers = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-    placeOrder() {
-      const order = {
-        customer_id: this.customer_id,
-        billing_address: this.address,
-        shipping_address: this.address,
-        order_details: this.cartProducts,
-        status: "delivered",
-        sub_total: this.total,
-        discount: this.discount,
-        delivery_charge: parseFloat(this.deliveryCharge),
-        total: this.finalTotal + parseFloat(this.deliveryCharge),
-      };
-
-      this.$store.dispatch("createOrder", order).then((response) => {
-        this.eventBus.emit("newOrderCreated", response);
-
-        // toast message
-        const Toast = this.$swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener("mouseenter", this.$swal.stopTimer);
-            toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-          },
-        });
-
-        Toast.fire({
-          icon: "success",
-          title: "Order placed successfully..",
-        });
-        // toast message
-
-        this.closeModal();
-      });
-
-      this.$router.push({
-        name: "Orders",
-      });
+      this.showOrderDetails = false;
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 </style>
