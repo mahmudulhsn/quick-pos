@@ -35,209 +35,262 @@
           </span>
         </div>
         <!-- header section -->
+        <div id="printMe">
+          <!-- customer info section -->
+          <div class="customer-section w-full px-5 align-middle border-b-2">
+            <!-- customer selection section -->
+            <div class="flex justify-between content-start mt-4 mb-4 space-x-4">
+              <div>
+                <label for="customer" class="text-xl">Customer: </label>
+              </div>
+              <div>
+                <p>{{ order.customer.name }}</p>
+              </div>
+            </div>
+            <!-- customer selection section -->
 
-        <!-- customer info section -->
-        <div class="customer-section w-full px-5 align-middle border-b-2">
-          <!-- customer selection section -->
-          <div class="flex justify-between content-start mt-4 mb-4 space-x-4">
-            <div>
-              <label for="customer" class="text-xl">Customer: </label>
+            <!-- customer address section -->
+            <div class="flex justify-between content-start mt-4 mb-4">
+              <div>
+                <label for="customer" class="text-xl">Address: </label>
+              </div>
+              <div>
+                <p>{{ order.customer.address }}</p>
+              </div>
             </div>
-            <div>
-              <p>{{ order.customer.name }}</p>
-            </div>
+            <!-- customer address section -->
           </div>
-          <!-- customer selection section -->
+          <!-- customer info section -->
 
-          <!-- customer address section -->
-          <div class="flex justify-between content-start mt-4 mb-4">
-            <div>
-              <label for="customer" class="text-xl">Address: </label>
-            </div>
-            <div>
-              <p>{{ order.customer.address }}</p>
-            </div>
-          </div>
-          <!-- customer address section -->
-        </div>
-        <!-- customer info section -->
-
-        <!-- order details section -->
-        <div class="order-details mt-5">
-          <h1 class="font-bold text-2xl mb-4">Order details</h1>
-          <h1 class="text-left font-bold text-xl mb-4">
-            Order ID: {{ order.order_id }}
-          </h1>
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table
-              class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
-            >
-              <thead
+          <!-- order details section -->
+          <div class="order-details mt-5">
+            <h1 class="font-bold text-2xl mb-4">Order details</h1>
+            <h1 class="text-left font-bold text-xl mb-4">
+              Order ID: {{ order.order_id }}
+            </h1>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <table
                 class="
-                  text-xs text-gray-700
-                  uppercase
-                  bg-gray-50
-                  dark:bg-gray-700 dark:text-gray-400
+                  w-full
+                  text-sm text-left text-gray-500
+                  dark:text-gray-400
                 "
               >
-                <tr>
-                  <th scope="col" class="px-6 py-3">Product name</th>
-                  <th scope="col" class="px-6 py-3 text-center">Unit Price</th>
-                  <th scope="col" class="px-6 py-3 text-center">Quantity</th>
-                  <th scope="col" class="px-6 py-3 text-right">Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="(product, index) in order.order_details"
-                  :key="index"
+                <thead
                   class="
-                    border-b
-                    dark:bg-gray-800 dark:border-gray-700
-                    odd:bg-white
-                    even:bg-gray-50
-                    odd:dark:bg-gray-800
-                    even:dark:bg-gray-700
+                    text-xs text-gray-700
+                    uppercase
+                    bg-gray-50
+                    dark:bg-gray-700 dark:text-gray-400
                   "
                 >
-                  <th
-                    scope="row"
+                  <tr>
+                    <th scope="col" class="px-6 py-3">Product name</th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                      Unit Price
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">Quantity</th>
+                    <th scope="col" class="px-6 py-3 text-right">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(product, index) in order.order_details"
+                    :key="index"
                     class="
-                      px-6
-                      py-4
-                      font-medium
-                      text-gray-900
-                      dark:text-white
-                      whitespace-nowrap
+                      border-b
+                      dark:bg-gray-800 dark:border-gray-700
+                      odd:bg-white
+                      even:bg-gray-50
+                      odd:dark:bg-gray-800
+                      even:dark:bg-gray-700
                     "
                   >
-                    {{ product.name }}
-                  </th>
-                  <td class="px-6 py-4 text-center">{{ product.price }}</td>
-                  <td class="px-6 py-4 text-center">{{ product.quantity }}</td>
-                  <td class="px-6 py-4 float-right">
-                    {{ product.totalAmount }}
-                  </td>
-                </tr>
-                <tr
-                  class="
-                    border-b
-                    dark:bg-gray-800 dark:border-gray-700
-                    odd:bg-white
-                    even:bg-gray-50
-                    odd:dark:bg-gray-800
-                    even:dark:bg-gray-700
-                  "
-                >
-                  <th
-                    scope="row"
+                    <th
+                      scope="row"
+                      class="
+                        px-6
+                        py-4
+                        font-medium
+                        text-black
+                        dark:text-white
+                        whitespace-nowrap
+                      "
+                    >
+                      {{ product.name }}
+                    </th>
+                    <td class="px-6 py-4 text-center">{{ product.price }}</td>
+                    <td class="px-6 py-4 text-center">
+                      {{ product.quantity }}
+                    </td>
+                    <td class="px-6 py-4 float-right">
+                      {{ product.totalAmount }}
+                    </td>
+                  </tr>
+                  <tr
                     class="
-                      px-6
-                      py-4
-                      font-medium
-                      text-gray-900
-                      dark:text-white
-                      whitespace-nowrap
+                      border-b
+                      dark:bg-gray-800 dark:border-gray-700
+                      odd:bg-white
+                      even:bg-gray-50
+                      odd:dark:bg-gray-800
+                      even:dark:bg-gray-700
                     "
-                  ></th>
-                  <td class="px-6 py-4"></td>
-                  <td class="px-6 py-4 text-white font-bold">Subtotal</td>
-                  <td class="px-6 py-4 text-white font-bold float-right">
-                    {{ order.sub_total }}
-                  </td>
-                </tr>
-                <tr
-                  class="
-                    border-b
-                    dark:bg-gray-800 dark:border-gray-700
-                    odd:bg-white
-                    even:bg-gray-50
-                    odd:dark:bg-gray-800
-                    even:dark:bg-gray-700
-                  "
-                >
-                  <th
-                    scope="row"
+                  >
+                    <th
+                      scope="row"
+                      class="
+                        px-6
+                        py-4
+                        font-medium
+                        text-black
+                        dark:text-white
+                        whitespace-nowrap
+                      "
+                    ></th>
+                    <td class="px-6 py-4"></td>
+                    <td class="px-6 py-4 dark:text-white text-black font-bold">
+                      Subtotal
+                    </td>
+                    <td
+                      class="
+                        px-6
+                        py-4
+                        dark:text-white
+                        text-black
+                        font-bold
+                        float-right
+                      "
+                    >
+                      {{ order.sub_total }}
+                    </td>
+                  </tr>
+                  <tr
                     class="
-                      px-6
-                      py-4
-                      font-medium
-                      text-gray-900
-                      dark:text-white
-                      whitespace-nowrap
+                      border-b
+                      dark:bg-gray-800 dark:border-gray-700
+                      odd:bg-white
+                      even:bg-gray-50
+                      odd:dark:bg-gray-800
+                      even:dark:bg-gray-700
                     "
-                  ></th>
-                  <td class="px-6 py-4"></td>
-                  <td class="px-6 py-4 text-white font-bold">Discount</td>
-                  <td class="px-6 py-4 text-white font-bold float-right">
-                    {{ order.discount }}
-                  </td>
-                </tr>
-                <tr
-                  class="
-                    border-b
-                    dark:bg-gray-800 dark:border-gray-700
-                    odd:bg-white
-                    even:bg-gray-50
-                    odd:dark:bg-gray-800
-                    even:dark:bg-gray-700
-                  "
-                >
-                  <th
-                    scope="row"
+                  >
+                    <th
+                      scope="row"
+                      class="
+                        px-6
+                        py-4
+                        font-medium
+                        text-black
+                        dark:text-white
+                        whitespace-nowrap
+                      "
+                    ></th>
+                    <td class="px-6 py-4"></td>
+                    <td class="px-6 py-4 dark:text-white text-black font-bold">
+                      Discount
+                    </td>
+                    <td
+                      class="
+                        px-6
+                        py-4
+                        dark:text-white
+                        text-black
+                        font-bold
+                        float-right
+                      "
+                    >
+                      {{ order.discount }}
+                    </td>
+                  </tr>
+                  <tr
                     class="
-                      px-6
-                      py-4
-                      font-medium
-                      text-gray-900
-                      dark:text-white
-                      whitespace-nowrap
+                      border-b
+                      dark:bg-gray-800 dark:border-gray-700
+                      odd:bg-white
+                      even:bg-gray-50
+                      odd:dark:bg-gray-800
+                      even:dark:bg-gray-700
                     "
-                  ></th>
-                  <td class="px-6 py-4"></td>
-                  <td class="px-6 py-4 text-white font-bold">
-                    Delivery Charge
-                  </td>
-                  <td class="px-6 py-4 text-white font-bold float-right">
-                    {{ order.delivery_charge }}
-                  </td>
-                </tr>
-                <tr
-                  class="
-                    border-b
-                    dark:bg-gray-800 dark:border-gray-700
-                    odd:bg-white
-                    even:bg-gray-50
-                    odd:dark:bg-gray-800
-                    even:dark:bg-gray-700
-                  "
-                >
-                  <th
-                    scope="row"
+                  >
+                    <th
+                      scope="row"
+                      class="
+                        px-6
+                        py-4
+                        font-medium
+                        text-black
+                        dark:text-white
+                        whitespace-nowrap
+                      "
+                    ></th>
+                    <td class="px-6 py-4"></td>
+                    <td class="px-6 py-4 dark:text-white text-black font-bold">
+                      Delivery Charge
+                    </td>
+                    <td
+                      class="
+                        px-6
+                        py-4
+                        dark:text-white
+                        text-black
+                        font-bold
+                        float-right
+                      "
+                    >
+                      {{ order.delivery_charge }}
+                    </td>
+                  </tr>
+                  <tr
                     class="
-                      px-6
-                      py-4
-                      font-medium
-                      text-gray-900
-                      dark:text-white
-                      whitespace-nowrap
+                      border-b
+                      dark:bg-gray-800 dark:border-gray-700
+                      odd:bg-white
+                      even:bg-gray-50
+                      odd:dark:bg-gray-800
+                      even:dark:bg-gray-700
                     "
-                  ></th>
-                  <td class="px-6 py-4"></td>
-                  <td class="px-6 py-4 text-white font-bold">Total</td>
-                  <td class="px-6 py-4 text-white font-bold float-right">
-                    {{ order.total }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  >
+                    <th
+                      scope="row"
+                      class="
+                        px-6
+                        py-4
+                        font-medium
+                        text-black
+                        dark:text-white
+                        whitespace-nowrap
+                      "
+                    ></th>
+                    <td class="px-6 py-4"></td>
+                    <td class="px-6 py-4 dark:text-white text-black font-bold">
+                      Total
+                    </td>
+                    <td
+                      class="
+                        px-6
+                        py-4
+                        dark:text-white
+                        text-black
+                        font-bold
+                        float-right
+                      "
+                    >
+                      {{ order.total }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
+          <!-- order details section -->
         </div>
-        <!-- order details section -->
 
         <!-- place order -->
         <div class="place-order mt-5 flex justify-end">
-          <button class="px-4 py-2 rounded bg-blue-500">Print</button>
+          <button class="px-4 py-2 rounded bg-blue-500" v-print="printObj">
+            Print
+          </button>
         </div>
         <!-- place order -->
       </div>
@@ -251,6 +304,25 @@ export default {
     return {
       showOrderDetails: false,
       order: {},
+      printLoading: true,
+      printObj: {
+        id: "printMe",
+        // preview: true,
+        // previewTitle: "print Title",
+        // previewPrintBtnLabel: "Print",
+        popTitle: "Quick Mart BD",
+        beforeOpenCallback(vue) {
+          vue.printLoading = true;
+          console.log("Test");
+        },
+        openCallback(vue) {
+          vue.printLoading = false;
+          console.log("Test 2");
+        },
+        closeCallback(vue) {
+          console.log("Test 3");
+        },
+      },
     };
   },
   created() {
