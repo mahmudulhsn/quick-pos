@@ -7,6 +7,7 @@ const store = createStore({
   state: {
     token: localStorage.getItem("accessToken") || null,
     loggedInUser: {},
+    analytics: {},
     products: [],
     customers: [],
     orders: [],
@@ -43,6 +44,11 @@ const store = createStore({
     // get all orders
     getOrders(state, orders) {
       state.orders = orders;
+    },
+
+    // get all Analytics
+    getAllAnalytics(state, analytics) {
+      state.analytics = analytics;
     },
   },
   actions: {
@@ -336,7 +342,6 @@ const store = createStore({
         axios
           .post("/orders", order, config)
           .then((response) => {
-            console.log(response.data.data);
             resolve(response.data.data);
           })
           .catch((error) => {
@@ -356,6 +361,25 @@ const store = createStore({
           })
           .then((response) => {
             resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+
+    // get analytics
+    getAnalytics(context, orderID) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get("/analytics", {
+            headers: {
+              Authorization: "Bearer " + context.state.token,
+            },
+          })
+          .then((response) => {
+            context.commit("getAllAnalytics", response.data.data);
+            resolve(response.data.data);
           })
           .catch((error) => {
             reject(error);
