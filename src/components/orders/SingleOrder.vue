@@ -29,7 +29,7 @@
         class="font-medium text-white py-2 px-3 bg-sky-500 rounded"
         @click.prevent="showOrderDetails(order.id)"
       >
-        <i class="fas fa-edit"></i>
+        <i class="fa-solid fa-eye"></i>
       </button>
     </td>
   </tr>
