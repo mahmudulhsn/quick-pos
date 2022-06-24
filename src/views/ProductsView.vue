@@ -179,10 +179,7 @@ export default {
       // this.products.unshift(product);
     },
     deleteProduct(productID) {
-      this.products.splice(
-        this.products.find((item) => item.id === productID),
-        1
-      );
+      this.products = this.products.filter((data) => data.id != productID);
     },
   },
 };

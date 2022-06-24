@@ -176,10 +176,7 @@ export default {
     },
 
     deleteCustomer(customerID) {
-      this.customers.splice(
-        this.customers.find((item) => item.id === customerID),
-        1
-      );
+      this.customers = this.customers.filter((data) => data.id != customerID);
     },
   },
 };
