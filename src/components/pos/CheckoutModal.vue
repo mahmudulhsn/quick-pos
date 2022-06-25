@@ -400,7 +400,7 @@ export default {
     },
 
     closeModal() {
-      this.$emit("modalClose");
+      this.isModalOpen = false;
     },
 
     createdNewCustomer(customer) {
