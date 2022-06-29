@@ -111,15 +111,18 @@
       @customerUpdated="customerUpdated"
     />
     <!-- end edit model -->
+
+    <Loader v-if="loading" />
   </div>
 </template>
 
 <script>
+import Loader from "../components/helper/Loader.vue";
 import EditCustomer from "../components/customers/EditCustomer.vue";
 import CreateCustomer from "../components/customers/CreateCustomer.vue";
 import SingleCustomer from "../components/customers/SingleCustomer.vue";
 export default {
-  components: { SingleCustomer, CreateCustomer, EditCustomer },
+  components: { SingleCustomer, CreateCustomer, EditCustomer, Loader },
   data() {
     return {
       isModalOpen: false,
@@ -127,6 +130,7 @@ export default {
       search: "",
       customers: [],
       customer: {},
+      loading: false,
     };
   },
   mounted() {
@@ -156,10 +160,12 @@ export default {
       this.isModalOpen = false;
     },
     getAllCustomers() {
+      this.loading = true;
       this.$store
         .dispatch("getCustomers")
         .then((response) => {
           this.customers = response.data;
+          this.loading = false;
         })
         .catch((error) => {
           console.log(error);

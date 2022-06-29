@@ -81,17 +81,21 @@
     <!-- show modal -->
     <ShowOrderDetails />
     <!-- end show model -->
+
+    <Loader v-if="loading" />
   </div>
 </template>
 
 <script>
+import Loader from "../components/helper/Loader.vue";
 import ShowOrderDetails from "../components/orders/ShowOrderDetails.vue";
 import SingleOrder from "../components/orders/SingleOrder.vue";
 export default {
-  components: { SingleOrder, ShowOrderDetails },
+  components: { SingleOrder, ShowOrderDetails, Loader },
   data() {
     return {
       search: "",
+      loading: false,
       orders: [],
     };
   },
@@ -112,10 +116,12 @@ export default {
   },
   methods: {
     getAllOrders() {
+      this.loading = true;
       this.$store
         .dispatch("getOrders")
         .then((response) => {
           this.orders = response.data;
+          this.loading = false;
         })
         .catch((error) => {
           console.log(error);

@@ -110,10 +110,13 @@
       @productUpdated="productUpdated"
     />
     <!-- end edit model -->
+
+    <Loader v-if="loading" />
   </div>
 </template>
 
 <script>
+import Loader from "../components/helper/Loader.vue";
 import CreateProduct from "../components/products/CreateProduct.vue";
 import SingleProduct from "../components/products/SingleProduct.vue";
 import EditProduct from "../components/products/EditProduct.vue";
@@ -122,12 +125,14 @@ export default {
     CreateProduct,
     SingleProduct,
     EditProduct,
+    Loader,
   },
   data() {
     return {
       isModalOpen: false,
       openEditModal: false,
       search: "",
+      loading: false,
       products: [],
       product: {},
     };
@@ -159,10 +164,12 @@ export default {
       this.isModalOpen = false;
     },
     getAllProducts() {
+      this.loading = true;
       this.$store
         .dispatch("getProducts")
         .then((response) => {
           this.products = response.data;
+          this.loading = false;
         })
         .catch((error) => {
           console.log(error);

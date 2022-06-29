@@ -18,13 +18,17 @@
         {{ analyticsData.totalSell }}
       </h1>
     </div>
+    <Loader v-if="loading" />
   </div>
 </template>
 
 <script>
+import Loader from "../components/helper/Loader.vue";
 export default {
+  components: { Loader },
   data() {
     return {
+      loading: false,
       analyticsData: {},
     };
   },
@@ -34,10 +38,12 @@ export default {
 
   methods: {
     getAnalytics() {
+      this.loading = true;
       this.$store
         .dispatch("getAnalytics")
         .then((response) => {
           this.analyticsData = response;
+          this.loading = false;
         })
         .catch((error) => {
           console.log(error);

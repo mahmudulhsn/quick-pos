@@ -1,11 +1,20 @@
 <template>
-  <div></div>
+  <div><Loader v-if="loading" /></div>
 </template>
 
 <script>
+import Loader from "../helper/Loader.vue";
 export default {
+  components: { Loader },
+  data() {
+    return {
+      loading: false,
+    };
+  },
   created() {
+    this.loading = true;
     this.$store.dispatch("logout").then((res) => {
+      this.loading = false;
       const Toast = this.$swal.mixin({
         toast: true,
         position: "top-end",

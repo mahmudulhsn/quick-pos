@@ -220,14 +220,18 @@
         </div>
       </div>
     </div>
+
+    <Loader v-if="loading" />
   </div>
 </template>
 
 <script>
+import Loader from "../helper/Loader.vue";
 import ErrorMessage from "../validation/ErrorMessage.vue";
 export default {
   components: {
     ErrorMessage,
+    Loader,
   },
   props: {
     isOpenModal: {
@@ -243,6 +247,7 @@ export default {
         image: null,
       },
       preview: null,
+      loading: false,
       errors: {
         // name: null,
         // price: null,
@@ -337,11 +342,12 @@ export default {
       formData.append("name", this.product.name);
       formData.append("price", this.product.price);
       formData.append("quantity", this.product.quantity);
-
+      this.loading = true;
       this.$store
         .dispatch("createProduct", formData)
         .then((response) => {
           this.closeModal();
+          this.loading = true;
 
           const Toast = this.$swal.mixin({
             toast: true,

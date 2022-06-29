@@ -51,16 +51,19 @@
         </div>
       </div>
     </div>
+    <Loader v-if="loading" />
   </div>
 </template>
 
 <script>
+import Loader from "../helper/Loader.vue";
 import SingleProduct from "./SingleProduct.vue";
 export default {
-  components: { SingleProduct },
+  components: { SingleProduct, Loader },
   data() {
     return {
       search: "",
+      loading: false,
       products: [],
     };
   },
@@ -79,10 +82,12 @@ export default {
 
   methods: {
     getAllProducts() {
+      this.loading = true;
       this.$store
         .dispatch("getProducts")
         .then((response) => {
           this.products = response.data;
+          this.loading = false;
         })
         .catch((error) => {
           console.log(error);
